@@ -29,8 +29,6 @@ fun HomeView() {
                     .padding(8.dp)
                     .fillMaxWidth(),
                 text = "Home",
-                color = MaterialTheme.colorScheme.primary,
-                style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Center,
             )
         }

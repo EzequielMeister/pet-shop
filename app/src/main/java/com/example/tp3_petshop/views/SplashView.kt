@@ -1,5 +1,4 @@
 package com.example.tp3_petshop.views
-
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.example.tp3_petshop.ui.theme.TP3PETSHOPTheme
 
 @Composable
-fun DetailView() {
+fun SplashView() {
     Scaffold() { innerPadding ->
         Column(
             modifier = Modifier
@@ -28,7 +27,7 @@ fun DetailView() {
                 modifier = Modifier
                     .padding(8.dp)
                     .fillMaxWidth(),
-                text = "Detail",
+                text = "Home",
                 textAlign = TextAlign.Center,
             )
         }
@@ -39,8 +38,8 @@ fun DetailView() {
 @Preview(showBackground = true)
 @Composable
 
-fun DetailViewPreview () {
+fun SplashViewPreview () {
     TP3PETSHOPTheme (darkTheme = false, dynamicColor = false) {
-        DetailView()
+        SplashView()
     }
 }

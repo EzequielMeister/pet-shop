@@ -26,7 +26,7 @@ class MainActivity : ComponentActivity() {
                 NavHost(navController = navController, startDestination = "initial") {
                     composable("initial") {
                         SplashView(
-                            //onLoginClick = { navController.navigate("login") },
+                            // onLoginClick = { navController.navigate("login") },
                             //onRegisterClick = { navController.navigate("register") }
 
                         )

@@ -13,7 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.tp3_petshop.views.DetailView
-import com.example.tp3_petshop.views.HomeView
+import com.example.tp3_petshop.views.HomeScreen
 import com.example.tp3_petshop.views.SplashView
 
 class MainActivity : ComponentActivity() {
@@ -28,15 +28,20 @@ class MainActivity : ComponentActivity() {
                         SplashView(
                             // onLoginClick = { navController.navigate("login") },
                             //onRegisterClick = { navController.navigate("register") }
+                            onContinue = { navController.navigate("home") }
 
                         )
                     }
                     composable("home") {
-                        HomeView()
+                        HomeScreen(navController)
                     }
-                    composable("detail") {
-                        DetailView()
+                    composable("detail/{productId}") { backStackEntry ->
+                        val productId = backStackEntry.arguments?.getString("productId")?.toIntOrNull()
+                        if (productId != null) {
+                            DetailView(productId = productId, navController = navController)
+                        }
                     }
+
                 }
             }
         }

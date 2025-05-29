@@ -7,15 +7,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 import com.example.tp3_petshop.ui.theme.TP3PETSHOPTheme
+import kotlinx.coroutines.delay
 
 @Composable
-fun SplashView() {
+fun SplashView(onContinue: () -> Unit) {
     Scaffold() { innerPadding ->
         Column(
             modifier = Modifier
@@ -32,6 +34,10 @@ fun SplashView() {
             )
         }
     }
+    LaunchedEffect(Unit) {
+        delay(1500) // Simula carga de splash
+        onContinue()
+    }
 }
 
 
@@ -40,6 +46,6 @@ fun SplashView() {
 
 fun SplashViewPreview () {
     TP3PETSHOPTheme (darkTheme = false, dynamicColor = false) {
-        SplashView()
+        SplashView(onContinue = {})
     }
 }

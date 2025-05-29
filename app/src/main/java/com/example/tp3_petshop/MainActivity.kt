@@ -14,6 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.tp3_petshop.views.DetailView
 import com.example.tp3_petshop.views.HomeView
+import com.example.tp3_petshop.views.ProfileView
 import com.example.tp3_petshop.views.SplashView
 
 class MainActivity : ComponentActivity() {
@@ -25,7 +26,7 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 NavHost(navController = navController, startDestination = "initial") {
                     composable("initial") {
-                        SplashView(
+                        ProfileView(
                             // onLoginClick = { navController.navigate("login") },
                             //onRegisterClick = { navController.navigate("register") }
 

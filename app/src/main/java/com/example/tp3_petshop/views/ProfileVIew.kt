@@ -47,17 +47,20 @@ val optionsProfile = listOf(
 
 @Composable
 fun ProfileView(
-    navigate: () -> Unit
+    navigateToSellerMode: () -> Unit,
+    navigateToSettings: () -> Unit
+
 ) {
     var selectedTab by remember { mutableStateOf("saved") }
     var selectedSwitch by remember { mutableStateOf("profile") }
 
     val handleChangeTabs: (String) -> Unit = { value ->
         selectedTab = value
+        if (value === "editprofile") navigateToSettings()
     }
     val handleChangeSwitchButton: (String) -> Unit = { value ->
         selectedSwitch = value
-        navigate()
+        navigateToSellerMode()
     }
 
     Scaffold { innerPadding ->
@@ -111,7 +114,7 @@ fun ProfileView(
                     modifier = Modifier
                         .padding(8.dp)
                         .fillMaxWidth(),
-                    text = "Pittashop",
+                    text = "Abduldul",
                     textAlign = TextAlign.Center,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
@@ -149,6 +152,6 @@ fun ProfileView(
 
 fun ProfileViewPreview () {
     TP3PETSHOPTheme (darkTheme = false, dynamicColor = false) {
-        ProfileView({})
+        ProfileView({}, {})
     }
 }

@@ -12,10 +12,12 @@ import com.example.tp3_petshop.ui.theme.TP3PETSHOPTheme
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.tp3_petshop.views.DetailView
-import com.example.tp3_petshop.views.HomeView
+import com.example.tp3_petshop.views.FaqView
+import com.example.tp3_petshop.views.PrivacyView
 import com.example.tp3_petshop.views.ProfileView
 import com.example.tp3_petshop.views.ProfileViewSellerMode
+import com.example.tp3_petshop.views.SecurityView
+import com.example.tp3_petshop.views.SettingsView
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,11 +38,40 @@ class MainActivity : ComponentActivity() {
                         ProfileView(
                             fun() {
                                 navController.navigate("profileViewSellerMode")
+                            },
+                            fun() {
+                                navController.navigate("settingsView")
                             }
                         )
                     }
-                    composable("detail") {
-                        DetailView()
+                    composable("settingsView") {
+                        SettingsView(
+                            fun(value: String) {
+                                navController.navigate(value)
+                            },
+                            fun() {}
+                        )
+                    }
+                    composable("privacyView") {
+                        PrivacyView (
+                            fun(value: String) {
+                                navController.navigate(value)
+                            }
+                        )
+                    }
+                    composable("securityView") {
+                        SecurityView (
+                            fun(value: String) {
+                                navController.navigate(value)
+                            }
+                        )
+                    }
+                    composable("faqView") {
+                        FaqView (
+                            fun(value: String) {
+                                navController.navigate(value)
+                            }
+                        )
                     }
                 }
             }

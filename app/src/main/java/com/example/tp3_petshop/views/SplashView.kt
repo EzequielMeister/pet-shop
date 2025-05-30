@@ -3,7 +3,6 @@ package com.example.tp3_petshop.views
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -16,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tp3_petshop.R
+import com.example.tp3_petshop.components.ButtonAuthComp
 import com.example.tp3_petshop.ui.theme.TP3PETSHOPTheme
 
 @Composable
@@ -65,22 +65,11 @@ fun SplashView(onGetStartedClick: () -> Unit = {}) {
                     .width(90.dp)
             )
 
-            Button(
+            ButtonAuthComp(
+                text = "Get Started",
                 onClick = onGetStartedClick,
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF7F38FD)),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 24.dp),
-                shape = RoundedCornerShape(32.dp)
-            ) {
-                Text("Get Started",
-                    color = Color.White,
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .padding(8.dp)
-                    )
-            }
+                enabled = true
+            )
         }
     }
 }

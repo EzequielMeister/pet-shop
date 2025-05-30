@@ -21,7 +21,6 @@ import com.example.tp3_petshop.ui.theme.TP3PETSHOPTheme
 fun ResetPasswordView(navController: NavController? = null) {
     var newPassword by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
-    var showError by remember { mutableStateOf(false) }
 
     val isButtonEnabled = newPassword.isNotBlank() && confirmPassword.isNotBlank()
 

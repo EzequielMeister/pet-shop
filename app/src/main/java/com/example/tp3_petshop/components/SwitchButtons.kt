@@ -4,8 +4,6 @@ package com.example.tp3_petshop.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
@@ -14,14 +12,11 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.tp3_petshop.ui.theme.TP3PETSHOPTheme
-
+import com.example.tp3_petshop.shared.ButtonOption
 
 // pasar al theme
 val backgroundColorButtonsContainer = Color(0xFFF8F8F8)
@@ -35,9 +30,8 @@ val inactiveTextColor = Color(0xFFB3B1B0)
 val activeTextColor = Color(0xFFFFFFFF)
 
 @Composable
-fun TwoOptionsButtons(
-    option1: String,
-    option2: String,
+fun SwitchButtons(
+    options: List<ButtonOption>,
     selectedValue: String,
     onChange: (String) -> Unit,
     modifier: Modifier = Modifier
@@ -49,42 +43,19 @@ fun TwoOptionsButtons(
         .background(backgroundColorButtonsContainer),
     ) {
         Spacer(modifier = Modifier.width(4.dp))
-
-        Button(
-            onClick = { onChange(option1) },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = if (selectedValue == option1) activeButtonBackgroundColor else inactiveButtonColor
-            )
-        ) {
-            Text(
-                option1,
-                color = if (selectedValue == option1) activeTextColor else inactiveTextColor
-            )
+        options.forEach { option ->
+            Button(
+                onClick = { onChange(option.value) },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (selectedValue == option.value) activeButtonBackgroundColor else inactiveButtonColor
+                )
+            ) {
+                Text(
+                    option.label,
+                    color = if (selectedValue == option.value) activeTextColor else inactiveTextColor
+                )
+            }
         }
-
-        Button(
-            onClick = { onChange(option2) },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = if (selectedValue == option2) activeButtonBackgroundColor else inactiveButtonColor
-            )
-        ) {
-            Text(
-                option2,
-                color = if (selectedValue == option2) activeTextColor else inactiveTextColor
-            )
-        }
-
         Spacer(modifier = Modifier.width(4.dp))
-    }
-}
-
-
-
-@Preview(showBackground = true)
-@Composable
-
-fun TwoOptionsButtonsPreview () {
-    TP3PETSHOPTheme (darkTheme = false, dynamicColor = false) {
-        TwoOptionsButtons("Profile", "Seller Mode", "Profile", {})
     }
 }

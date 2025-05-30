@@ -2,6 +2,8 @@ package com.example.tp3_petshop.views
 
 
 import androidx.compose.foundation.Image
+import androidx.compose.runtime.*
+import androidx.compose.ui.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,10 +20,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -29,13 +33,35 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.tp3_petshop.components.TwoOptionsButtons
 import com.example.tp3_petshop.R
-import com.example.tp3_petshop.components.ProfileButtons
+import com.example.tp3_petshop.components.SwitchButtons
+import com.example.tp3_petshop.components.TabsButton
+import com.example.tp3_petshop.shared.ButtonOption
 import com.example.tp3_petshop.ui.theme.TP3PETSHOPTheme
+
+
+val options = listOf(
+    ButtonOption("Product", "product"),
+    ButtonOption("Sold", "sold"),
+    ButtonOption("Stats", "stats")
+)
+val switchOptions = listOf(
+    ButtonOption("Profile", "profile"),
+    ButtonOption("Seller Mode", "seller"),
+)
 
 @Composable
 fun ProfileView() {
+    var selectedTab by remember { mutableStateOf("product") }
+    var selectedSwitch by remember { mutableStateOf("seller") }
+
+    val handleChangeTabs: (String) -> Unit = { value ->
+        selectedTab = value
+    }
+    val handleChangeSwitchButton: (String) -> Unit = { value ->
+        selectedSwitch = value
+    }
+
     Scaffold { innerPadding ->
         Column(
             modifier = Modifier
@@ -43,8 +69,10 @@ fun ProfileView() {
                 .padding(24.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            TwoOptionsButtons(
-                "Profile", "Seller Mode", "Seller Mode", {},
+            SwitchButtons(
+                switchOptions,
+                selectedSwitch,
+                handleChangeSwitchButton,
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
 
@@ -133,14 +161,12 @@ fun ProfileView() {
 
                 }
             }
-            ProfileButtons(
-                "Product",
-                "Product",
-                "Sold",
-                "Stats",
-                handleChange = {},
-                Modifier.align(Alignment.CenterHorizontally))
-
+            TabsButton(
+                Modifier.align(Alignment.CenterHorizontally),
+                options,
+                selectedTab,
+                handleChange = handleChangeTabs
+            )
             Text(
                 modifier = Modifier
                     .padding(8.dp)

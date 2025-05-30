@@ -3,7 +3,6 @@ package com.example.tp3_petshop.views
 
 import androidx.compose.foundation.Image
 import androidx.compose.runtime.*
-import androidx.compose.ui.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,26 +39,25 @@ import com.example.tp3_petshop.shared.ButtonOption
 import com.example.tp3_petshop.ui.theme.TP3PETSHOPTheme
 
 
-val options = listOf(
-    ButtonOption("Product", "product"),
-    ButtonOption("Sold", "sold"),
-    ButtonOption("Stats", "stats")
-)
-val switchOptions = listOf(
-    ButtonOption("Profile", "profile"),
-    ButtonOption("Seller Mode", "seller"),
+val optionsProfile = listOf(
+    ButtonOption("Saved", "saved"),
+    ButtonOption("Edit Profile", "editprofile")
 )
 
+
 @Composable
-fun ProfileView() {
-    var selectedTab by remember { mutableStateOf("product") }
-    var selectedSwitch by remember { mutableStateOf("seller") }
+fun ProfileView(
+    navigate: () -> Unit
+) {
+    var selectedTab by remember { mutableStateOf("saved") }
+    var selectedSwitch by remember { mutableStateOf("profile") }
 
     val handleChangeTabs: (String) -> Unit = { value ->
         selectedTab = value
     }
     val handleChangeSwitchButton: (String) -> Unit = { value ->
         selectedSwitch = value
+        navigate()
     }
 
     Scaffold { innerPadding ->
@@ -90,7 +88,7 @@ fun ProfileView() {
                         .height(159.dp)
                 ) {
                     Image(
-                        painter = painterResource(R.drawable.profile_background),
+                        painter = painterResource(R.drawable.profile_background_gray),
                         contentDescription = "Fondo",
                         contentScale = ContentScale.Crop,
                         modifier = Modifier.fillMaxSize()
@@ -99,7 +97,7 @@ fun ProfileView() {
 
                 // Imagen circular superpuesta
                 Image(
-                    painter = painterResource(R.drawable.profile_photo_p),
+                    painter = painterResource(R.drawable.profile_avatar),
                     contentDescription = "Avatar",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -120,50 +118,9 @@ fun ProfileView() {
 
                 )
             }
-            Row(
-                modifier= Modifier.width(224.dp)
-                    .align(Alignment.CenterHorizontally),
-                    horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                Column {
-                    Text(
-                        text = "109",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = "Followers",
-                        fontSize = 12.sp
-                    )
-                }
-                Column {
-                    Text(
-                        text = "992",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = "Following",
-                        fontSize = 12.sp
-                    )
-
-                }
-                Column {
-                    Text(
-                        text = "80",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = "Sales",
-                        fontSize = 12.sp
-                    )
-
-                }
-            }
             TabsButton(
                 Modifier.align(Alignment.CenterHorizontally),
-                options,
+                optionsProfile,
                 selectedTab,
                 handleChange = handleChangeTabs
             )
@@ -192,6 +149,6 @@ fun ProfileView() {
 
 fun ProfileViewPreview () {
     TP3PETSHOPTheme (darkTheme = false, dynamicColor = false) {
-        ProfileView()
+        ProfileView({})
     }
 }

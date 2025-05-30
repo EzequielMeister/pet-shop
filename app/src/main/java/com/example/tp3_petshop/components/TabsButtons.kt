@@ -2,6 +2,8 @@ package com.example.tp3_petshop.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -27,8 +29,8 @@ fun TabsButton(
     handleChange: (String) -> Unit = {}
 ) {
     Row(
-        modifier = modifier.width(275.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center
     ) {
         options.forEach { option ->
             Button(
@@ -44,6 +46,7 @@ fun TabsButton(
                     color = if (selected != option.value) inactiveColor else Color.White
                 )
             }
+            Spacer(modifier = Modifier.width(4.dp))
         }
     }
 }

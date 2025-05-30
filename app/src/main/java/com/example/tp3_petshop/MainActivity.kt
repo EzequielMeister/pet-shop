@@ -15,7 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.tp3_petshop.views.DetailView
 import com.example.tp3_petshop.views.HomeView
 import com.example.tp3_petshop.views.ProfileView
-import com.example.tp3_petshop.views.SplashView
+import com.example.tp3_petshop.views.ProfileViewSellerMode
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,18 +24,20 @@ class MainActivity : ComponentActivity() {
         setContent {
             TP3PETSHOPTheme {
                 val navController = rememberNavController()
-                NavHost(navController = navController, startDestination = "initial") {
-                    composable("initial") {
-                        ProfileView(
-                            // onLoginClick = { navController.navigate("login") },
-                            //onRegisterClick = { navController.navigate("register") }
-
+                NavHost(navController = navController, startDestination = "profileViewSellerMode") {
+                    composable("profileViewSellerMode") {
+                        ProfileViewSellerMode(
+                            fun (){
+                                navController.navigate("profileView")
+                            },
                         )
                     }
-
-
-                    composable("home") {
-                        HomeView()
+                    composable("profileView") {
+                        ProfileView(
+                            fun() {
+                                navController.navigate("profileViewSellerMode")
+                            }
+                        )
                     }
                     composable("detail") {
                         DetailView()

@@ -14,8 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.tp3_petshop.components.SwitchSection
 import com.example.tp3_petshop.components.TopBarButtonBack
-import com.example.tp3_petshop.shared.SwitchItemData
-import com.example.tp3_petshop.shared.SwitchSectionData
+import com.example.tp3_petshop.models.SwitchItemData
+import com.example.tp3_petshop.models.SwitchSectionData
 
 @Composable
 fun NotificationView (

@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
@@ -35,7 +34,7 @@ import androidx.compose.ui.unit.sp
 import com.example.tp3_petshop.R
 import com.example.tp3_petshop.components.SwitchButtons
 import com.example.tp3_petshop.components.TabsButton
-import com.example.tp3_petshop.shared.ButtonOption
+import com.example.tp3_petshop.models.ButtonOption
 import com.example.tp3_petshop.ui.theme.TP3PETSHOPTheme
 
 

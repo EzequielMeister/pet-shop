@@ -15,8 +15,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.tp3_petshop.shared.SwitchItemData
-import com.example.tp3_petshop.shared.SwitchSectionData
+import com.example.tp3_petshop.models.SwitchItemData
+import com.example.tp3_petshop.models.SwitchSectionData
 
 @Composable
 fun SwitchItem(

@@ -1,4 +1,4 @@
-package com.example.tp3_petshop.shared
+package com.example.tp3_petshop.models
 
 import androidx.compose.ui.graphics.vector.ImageVector
 

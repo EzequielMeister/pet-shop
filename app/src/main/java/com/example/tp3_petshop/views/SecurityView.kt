@@ -12,7 +12,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.tp3_petshop.shared.MenuItem
+import com.example.tp3_petshop.models.MenuItem
 import com.example.tp3_petshop.components.MenuComponent
 import com.example.tp3_petshop.components.TopBarButtonBack
 

@@ -14,7 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.tp3_petshop.shared.ButtonOption
+import com.example.tp3_petshop.models.ButtonOption
 
 
 val activeBackgroundButtonColor = Color(0xFF7140FD)

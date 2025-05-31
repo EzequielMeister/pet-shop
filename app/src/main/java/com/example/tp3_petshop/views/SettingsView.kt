@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tp3_petshop.components.MenuComponent
 import com.example.tp3_petshop.components.TopBarButtonBack
-import com.example.tp3_petshop.shared.MenuItem
+import com.example.tp3_petshop.models.MenuItem
 import com.example.tp3_petshop.ui.theme.TP3PETSHOPTheme
 
 @Composable

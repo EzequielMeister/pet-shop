@@ -12,9 +12,20 @@ import com.example.tp3_petshop.ui.theme.TP3PETSHOPTheme
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.tp3_petshop.views.DetailView
-import com.example.tp3_petshop.views.HomeView
+import com.example.tp3_petshop.views.AccountView
+import com.example.tp3_petshop.views.FaqView
+import com.example.tp3_petshop.views.HomeScreen
+import com.example.tp3_petshop.views.NotificationView
+import com.example.tp3_petshop.views.PrivacyView
+import com.example.tp3_petshop.views.ProfileView
+import com.example.tp3_petshop.views.ProfileViewSellerMode
+import com.example.tp3_petshop.views.SecurityView
+import com.example.tp3_petshop.views.SettingsView
+import com.example.tp3_petshop.views.LoginView
 import com.example.tp3_petshop.views.SplashView
+import com.example.tp3_petshop.views.RegisterView
+import com.example.tp3_petshop.views.DetailView
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,22 +37,92 @@ class MainActivity : ComponentActivity() {
                 NavHost(navController = navController, startDestination = "initial") {
                     composable("initial") {
                         SplashView(
-                            // onLoginClick = { navController.navigate("login") },
-                            //onRegisterClick = { navController.navigate("register") }
-
+                            onGetStartedClick = {
+                                navController.navigate("login")
+                            }
                         )
                     }
-                    composable("home") {
-                        HomeView()
+                    composable("login") {
+                        LoginView(navController)
                     }
-                    composable("detail") {
-                        DetailView()
+                    composable("register") {
+                        RegisterView(navController)
+                    }
+                    composable("profileViewSellerMode") {
+                        ProfileViewSellerMode(
+                            fun (){
+                                navController.navigate("profileView")
+                            },
+                        )
+                    }
+                    composable("profileView") {
+                        ProfileView(
+                            fun() {
+                                navController.navigate("profileViewSellerMode")
+                            },
+                            fun() {
+                                navController.navigate("settingsView")
+                            }
+                        )
+                    }
+                    composable("settingsView") {
+                        SettingsView(
+                            fun(value: String) {
+                                navController.navigate(value)
+                            },
+                            fun() {}
+                        )
+                    }
+                    composable("privacyView") {
+                        PrivacyView (
+                            fun(value: String) {
+                                navController.navigate(value)
+                            }
+                        )
+                    }
+                    composable("securityView") {
+                        SecurityView (
+                            fun(value: String) {
+                                navController.navigate(value)
+                            }
+                        )
+                    }
+                    composable("faqView") {
+                        FaqView (
+                            fun(value: String) {
+                                navController.navigate(value)
+                            }
+                        )
+                    }
+                    composable("notificationView") {
+                        NotificationView (
+                            fun(value: String) {
+                                navController.navigate(value)
+                            }
+                        )
+                    }
+                    composable("accountView") {
+                        AccountView(
+                            fun(value: String) {
+                                navController.navigate(value)
+                            }
+                        )
+                    }
+                    composable("homeScreen") {
+                        HomeScreen(navController)
+                    }
+                    composable("detail/{productId}") { backStackEntry ->
+                        val productId = backStackEntry.arguments?.getString("productId")?.toIntOrNull()
+                        if (productId != null) {
+                            DetailView(productId = productId, navController = navController)
+                        }
                     }
                 }
             }
         }
     }
 }
+
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {

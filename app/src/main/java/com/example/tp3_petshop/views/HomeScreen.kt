@@ -1,46 +1,47 @@
 package com.example.tp3_petshop.views
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.*
+import com.example.tp3_petshop.views.ProductListScreen
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-
-import com.example.tp3_petshop.ui.theme.TP3PETSHOPTheme
+import androidx.navigation.NavController
 
 @Composable
-fun HomeView() {
-    Scaffold() { innerPadding ->
+fun HomeScreen(navController: NavController) {
+    Scaffold(
+        containerColor = Color(0xFFFFFFFF),
+        topBar = {
+            @OptIn(ExperimentalMaterial3Api::class)
+            TopAppBar(
+                title = { Text("Petshop") }
+                // podés agregar navegación o íconos acá
+            )
+        },
+        bottomBar = {
+            NavigationBar {
+                NavigationBarItem(
+                    selected = true,
+                    onClick = { /* Navegación */ },
+                    label = { Text("Inicio") },
+                    icon = { Icon(Icons.Default.Home, contentDescription = null) }
+                )
+                // Agregá más items si tenés otras pantallas
+            }
+        }
+    ) { innerPadding ->
+        // Contenido principal
         Column(
             modifier = Modifier
+                .fillMaxSize()
                 .padding(innerPadding)
-                .padding(horizontal = 24.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+                .padding(horizontal = 16.dp)
         ) {
-            Text(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth(),
-                text = "Home",
-                textAlign = TextAlign.Center,
-            )
+            ProductListScreen(navController = navController)
         }
-    }
-}
-
-
-@Preview(showBackground = true)
-@Composable
-
-fun HomeViewPreview () {
-    TP3PETSHOPTheme (darkTheme = false, dynamicColor = false) {
-        HomeView()
     }
 }

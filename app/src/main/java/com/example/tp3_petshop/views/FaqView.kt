@@ -1,10 +1,12 @@
 package com.example.tp3_petshop.views
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -21,18 +23,26 @@ val items = List(5) { index ->
 }
 
 @Composable
-fun FaqView(onNavigate: (value: String) -> Unit,
-) {
+fun FaqView(onNavigate: (value: String) -> Unit) {
     var expandedIndex by remember { mutableIntStateOf(-1) }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp)
-    ) {
-        TopBarButtonBack("FAQ", fun () { onNavigate("settingsView")})
-        Spacer(Modifier.height(8.dp))
-        Column(modifier = Modifier.padding(16.dp)) {
+    Scaffold(
+        topBar = {
+            TopBarButtonBack("FAQ") { onNavigate("settingsView") }
+        }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(
+                    PaddingValues(
+                        top = innerPadding.calculateTopPadding() + 8.dp,
+                        start = 24.dp,
+                        end = 24.dp,
+                        bottom = innerPadding.calculateBottomPadding()
+                    )
+                )
+        ) {
             items.forEachIndexed { index, (title, content) ->
                 AccordionItem(
                     title = title,
@@ -42,8 +52,9 @@ fun FaqView(onNavigate: (value: String) -> Unit,
                         expandedIndex = if (expandedIndex == index) -1 else index
                     }
                 )
+                Spacer(Modifier.height(8.dp))
             }
         }
     }
-
 }
+

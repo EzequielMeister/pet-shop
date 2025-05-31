@@ -12,7 +12,9 @@ import com.example.tp3_petshop.ui.theme.TP3PETSHOPTheme
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.tp3_petshop.views.AccountView
 import com.example.tp3_petshop.views.FaqView
+import com.example.tp3_petshop.views.NotificationView
 import com.example.tp3_petshop.views.PrivacyView
 import com.example.tp3_petshop.views.ProfileView
 import com.example.tp3_petshop.views.ProfileViewSellerMode
@@ -68,6 +70,20 @@ class MainActivity : ComponentActivity() {
                     }
                     composable("faqView") {
                         FaqView (
+                            fun(value: String) {
+                                navController.navigate(value)
+                            }
+                        )
+                    }
+                    composable("notificationView") {
+                        NotificationView (
+                            fun(value: String) {
+                                navController.navigate(value)
+                            }
+                        )
+                    }
+                    composable("accountView") {
+                        AccountView(
                             fun(value: String) {
                                 navController.navigate(value)
                             }

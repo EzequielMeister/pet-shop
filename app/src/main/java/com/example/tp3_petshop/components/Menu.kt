@@ -11,7 +11,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.KeyboardArrowRight
 import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material.icons.outlined.KeyboardArrowRight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,11 +25,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
-data class SettingsItem(val icon: ImageVector, val label: String, val value: String)
+import com.example.tp3_petshop.shared.MenuItem
 
 @Composable
-fun ItemRow(item: SettingsItem, onClick: () -> Unit) {
+fun ItemRow(item: MenuItem, onClick: () -> Unit) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -55,7 +56,7 @@ fun ItemRow(item: SettingsItem, onClick: () -> Unit) {
         Text(item.label, modifier = Modifier.weight(1f))
 
         Icon(
-            imageVector = Icons.Default.KeyboardArrowRight,
+            imageVector = Icons.AutoMirrored.Outlined.KeyboardArrowRight,
             contentDescription = null
         )
     }
@@ -63,7 +64,7 @@ fun ItemRow(item: SettingsItem, onClick: () -> Unit) {
 
 
 @Composable
-fun MenuComponent(title: String, items: List<SettingsItem>, onClick: (String) -> Unit) {
+fun MenuComponent(title: String, items: List<MenuItem>, onClick: (String) -> Unit) {
     Text(
         text = title,
         style = MaterialTheme.typography.labelMedium,

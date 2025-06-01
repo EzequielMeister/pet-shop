@@ -25,6 +25,7 @@ import com.example.tp3_petshop.views.LoginView
 import com.example.tp3_petshop.views.SplashView
 import com.example.tp3_petshop.views.RegisterView
 import com.example.tp3_petshop.views.DetailView
+import com.example.tp3_petshop.views.NotificationsListView
 
 
 class MainActivity : ComponentActivity() {
@@ -34,7 +35,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             TP3PETSHOPTheme {
                 val navController = rememberNavController()
-                NavHost(navController = navController, startDestination = "initial") {
+                NavHost(navController = navController, startDestination = "homeScreen") {
                     composable("initial") {
                         SplashView(
                             onGetStartedClick = {
@@ -101,6 +102,10 @@ class MainActivity : ComponentActivity() {
                             }
                         )
                     }
+                    composable("notificationView") {
+                        NotificationsListView(navController)
+                    }
+
                     composable("accountView") {
                         AccountView(
                             fun(value: String) {

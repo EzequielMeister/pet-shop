@@ -28,6 +28,7 @@ import com.example.tp3_petshop.views.SplashView
 import com.example.tp3_petshop.views.RegisterView
 import com.example.tp3_petshop.views.DetailView
 import com.example.tp3_petshop.views.NotificationsListView
+import com.example.tp3_petshop.views.PaymentMethodConfigView
 
 
 class MainActivity : ComponentActivity() {
@@ -130,6 +131,13 @@ class MainActivity : ComponentActivity() {
                     }
                     composable("changeEmailView") {
                         ChangeEmailView(
+                            fun(value: String) {
+                                navController.navigate(value)
+                            }
+                        )
+                    }
+                    composable("paymentMethodConfigView") {
+                        PaymentMethodConfigView(
                             fun(value: String) {
                                 navController.navigate(value)
                             }

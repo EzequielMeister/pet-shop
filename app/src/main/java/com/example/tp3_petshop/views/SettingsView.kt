@@ -62,7 +62,7 @@ fun SettingsView(
                     MenuItem(Icons.Outlined.Person, "Account", "accountView"),
                     MenuItem(Icons.Outlined.Home, "Address", "addressView"),
                     MenuItem(Icons.Outlined.Notifications, "Notification", "notificationView"),
-                    MenuItem(Icons.Outlined.AccountBox, "Payment Method", "paymentMethodView"),
+                    MenuItem(Icons.Outlined.AccountBox, "Payment Method", "paymentMethodConfigView"),
                     MenuItem(Icons.Outlined.Info, "Privacy", "privacyView"),
                     MenuItem(Icons.Outlined.Lock, "Security", "securityView")
                 ), fun(value: String) { onOptionClick(value) })

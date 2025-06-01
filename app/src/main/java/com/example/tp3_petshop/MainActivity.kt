@@ -13,6 +13,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.tp3_petshop.views.AccountView
+import com.example.tp3_petshop.views.ChangeEmailView
+import com.example.tp3_petshop.views.ChangePasswordView
 import com.example.tp3_petshop.views.FaqView
 import com.example.tp3_petshop.views.HomeScreen
 import com.example.tp3_petshop.views.NotificationView
@@ -51,18 +53,15 @@ class MainActivity : ComponentActivity() {
                     }
                     composable("profileViewSellerMode") {
                         ProfileViewSellerMode(
-                            fun (){
-                                navController.navigate("profileView")
+                            fun (route: String){
+                                navController.navigate(route)
                             },
                         )
                     }
                     composable("profileView") {
                         ProfileView(
-                            fun() {
-                                navController.navigate("profileViewSellerMode")
-                            },
-                            fun() {
-                                navController.navigate("settingsView")
+                            fun(route: String) {
+                                navController.navigate(route)
                             }
                         )
                     }
@@ -121,6 +120,20 @@ class MainActivity : ComponentActivity() {
                         if (productId != null) {
                             DetailView(productId = productId, navController = navController)
                         }
+                    }
+                    composable("changePasswordView") {
+                        ChangePasswordView(
+                            fun(value: String) {
+                                navController.navigate(value)
+                            }
+                        )
+                    }
+                    composable("changeEmailView") {
+                        ChangeEmailView(
+                            fun(value: String) {
+                                navController.navigate(value)
+                            }
+                        )
                     }
                 }
             }

@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -16,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.tp3_petshop.components.BottomNavBar
 import com.example.tp3_petshop.components.LocationTopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,16 +39,11 @@ fun HomeScreen(navController: NavController) {
 
             )
         },
-        bottomBar = {
-            NavigationBar {
-                NavigationBarItem(
-                    selected = true,
-                    onClick = { /* Navegación */ },
-                    label = { Text("Inicio") },
-                    icon = { Icon(Icons.Default.Home, contentDescription = null) }
-                )
-            }
-        }
+
+        bottomBar = { BottomNavBar(currentRoute = "homeView", onNavigate = { route ->
+            navController.navigate(route)
+        }) }
+
     ) { innerPadding ->
         Column(
             modifier = Modifier

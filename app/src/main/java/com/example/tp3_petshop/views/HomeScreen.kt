@@ -4,12 +4,14 @@ import androidx.compose.foundation.layout.*
 import com.example.tp3_petshop.views.ProductListScreen
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.tp3_petshop.components.BottomNavBar
 
 @Composable
 fun HomeScreen(navController: NavController) {
@@ -22,17 +24,9 @@ fun HomeScreen(navController: NavController) {
                 // podés agregar navegación o íconos acá
             )
         },
-        bottomBar = {
-            NavigationBar {
-                NavigationBarItem(
-                    selected = true,
-                    onClick = { /* Navegación */ },
-                    label = { Text("Inicio") },
-                    icon = { Icon(Icons.Default.Home, contentDescription = null) }
-                )
-                // Agregá más items si tenés otras pantallas
-            }
-        }
+        bottomBar = { BottomNavBar(currentRoute = "homeView", onNavigate = { route ->
+            navController.navigate(route)
+        }) }
     ) { innerPadding ->
         // Contenido principal
         Column(

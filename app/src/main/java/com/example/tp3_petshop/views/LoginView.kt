@@ -2,6 +2,7 @@ package com.example.tp3_petshop.views
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -14,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -27,7 +29,6 @@ import com.example.tp3_petshop.ui.theme.TP3PETSHOPTheme
 fun LoginView(navController: NavController? = null) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var showError by remember { mutableStateOf(false) }
 
     val isButtonEnabled = email.isNotBlank() && password.isNotBlank()
 
@@ -52,30 +53,16 @@ fun LoginView(navController: NavController? = null) {
                 value = email,
                 onValueChange = {  email = it},
                 placeholder = "Email",
-                isError = showError
+                keyboard = KeyboardOptions(keyboardType = KeyboardType.Email)
             )
             Spacer(modifier = Modifier.height(20.dp))
             FormAuth(
                 value = password,
                 onValueChange = {password = it},
                 placeholder = "Password",
-                isError = false
+                keyboard = KeyboardOptions(keyboardType = KeyboardType.Password)
             )
             Spacer(modifier = Modifier.height(16.dp))
-
-            if (showError && (email.isBlank() || password.isBlank())) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.info),
-                        contentDescription = "Error",
-                        tint = Color.Red,
-                        modifier = Modifier.size(16.dp)
-                    )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text("Required Fields", color = Color.Red, fontSize = 12.sp)
-                }
-            }
-
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()

@@ -16,7 +16,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tp3_petshop.components.TopBarButtonBack
-import com.example.tp3_petshop.components.inactiveTextColor
+import com.example.tp3_petshop.ui.theme.inactiveTextColor
+
 
 @Composable
 fun PrivacyView(

@@ -60,7 +60,7 @@ fun SettingsView(
             MenuComponent(
                 title = "Account", items = listOf(
                     MenuItem(Icons.Outlined.Person, "Account", "accountView"),
-                    MenuItem(Icons.Outlined.Home, "Address", "addressView"),
+                    MenuItem(Icons.Outlined.Home, "Address", "settingsView"),
                     MenuItem(Icons.Outlined.Notifications, "Notification", "notificationView"),
                     MenuItem(Icons.Outlined.AccountBox, "Payment Method", "paymentMethodConfigView"),
                     MenuItem(Icons.Outlined.Info, "Privacy", "privacyView"),

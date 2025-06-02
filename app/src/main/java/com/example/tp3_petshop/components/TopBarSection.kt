@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -18,6 +19,7 @@ import androidx.compose.ui.unit.dp
 fun TopBarSection(
     title: String,
     showFavorite: Boolean = false,
+    isFavorite: Boolean = false,
     onBackClick: () -> Unit,
     onFavoriteClick: () -> Unit = {}
 ) {
@@ -59,7 +61,7 @@ fun TopBarSection(
                     .background(Color.White, shape = CircleShape)
             ) {
                 Icon(
-                    Icons.Default.FavoriteBorder,
+                    if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                     contentDescription = "Favorite"
                 )
             }

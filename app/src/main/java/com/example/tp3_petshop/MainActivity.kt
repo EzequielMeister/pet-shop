@@ -29,8 +29,9 @@ import com.example.tp3_petshop.views.RegisterView
 import com.example.tp3_petshop.views.DetailView
 import com.example.tp3_petshop.views.NotificationsListView
 import com.example.tp3_petshop.views.PaymentMethodConfigView
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

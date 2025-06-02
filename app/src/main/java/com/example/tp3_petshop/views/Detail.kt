@@ -18,19 +18,26 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.tp3_petshop.components.TopBarSection
+import com.example.tp3_petshop.models.FavoriteProductDto
+import com.example.tp3_petshop.viewmodel.FavoriteProductViewModel
 import com.example.tp3_petshop.viewmodel.ProductViewModel
 
 @Composable
-fun DetailView(productId: Int, navController: NavController, viewModel: ProductViewModel = viewModel()) {
+fun DetailView(productId: Int, navController: NavController, viewModel: ProductViewModel = viewModel(),
+               favoriteViewModel: FavoriteProductViewModel = hiltViewModel()
+) {
     val product by viewModel.selectedProduct.collectAsState()
     var quantity by remember { mutableStateOf(1) }
+    val favorite by favoriteViewModel.favoriteById.collectAsState()
 
     LaunchedEffect(productId) {
         viewModel.fetchProductById(productId)
+        favoriteViewModel.getByProductId(productId)
     }
 
     if (product != null) {
@@ -49,8 +56,15 @@ fun DetailView(productId: Int, navController: NavController, viewModel: ProductV
                     TopBarSection(
                         title = "Product Detail",
                         showFavorite = true,
+                        isFavorite = favorite != null,
                         onBackClick = { navController.popBackStack() },
-                        onFavoriteClick = { /* TODO: marcar favorito */ }
+                        onFavoriteClick = {
+                            if (favorite != null) {
+                                favoriteViewModel.deleteFavorite(favorite!!)
+                            } else {
+                                favoriteViewModel.saveFavorite(FavoriteProductDto(productId = productId))
+                            }
+                        }
                     )
 
                     Column(

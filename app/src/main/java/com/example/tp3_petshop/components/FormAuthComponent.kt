@@ -40,8 +40,8 @@ fun FormAuth(
             focusedContainerColor = Color.Transparent,
             unfocusedContainerColor = Color.Transparent,
             focusedIndicatorColor = Color(0xFF6C63FF),
-            unfocusedIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.LightGray,
+            disabledIndicatorColor = Color.LightGray,
             errorIndicatorColor = Color.Red
         ),
         shape = RoundedCornerShape(16.dp),

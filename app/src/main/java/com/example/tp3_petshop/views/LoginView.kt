@@ -23,12 +23,19 @@ import androidx.navigation.NavController
 import com.example.tp3_petshop.R
 import com.example.tp3_petshop.components.ButtonAuthComp
 import com.example.tp3_petshop.components.FormAuth
+import com.example.tp3_petshop.models.Login
+import com.example.tp3_petshop.network.RetrofitInstance
 import com.example.tp3_petshop.ui.theme.TP3PETSHOPTheme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Composable
 fun LoginView(navController: NavController? = null) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var loginError by remember { mutableStateOf(false) }
 
     val isButtonEnabled = email.isNotBlank() && password.isNotBlank()
 
@@ -116,10 +123,20 @@ fun LoginView(navController: NavController? = null) {
                 }
             }
 
+            if (loginError) {
+                Text(
+                    text = "Error: User or Password incorrect",
+                    color = Color.Red,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(8.dp).align(Alignment.CenterHorizontally)
+                )
+            }
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 250.dp),
+                    .padding(top = 230.dp),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -134,7 +151,24 @@ fun LoginView(navController: NavController? = null) {
 
         ButtonAuthComp(
             text = "Get Started",
-            onClick =  {},
+            onClick =  { if (isButtonEnabled) {
+                loginError = false
+                CoroutineScope(Dispatchers.Main).launch {
+                    try {
+                        val response = withContext(Dispatchers.IO) {
+                            RetrofitInstance.authService.login(
+                                Login(username = email, password = password)
+                            )
+                        }
+                        println("Token recibido: ${response.token}")
+                        navController?.navigate("homeScreen")
+                    } catch (e: Exception) {
+                        println("Error en login: ${e.message}")
+                        loginError = true
+                    }
+                }
+            }
+            },
             enabled = isButtonEnabled
         )
 

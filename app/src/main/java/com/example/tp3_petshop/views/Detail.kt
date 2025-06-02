@@ -28,7 +28,7 @@ import com.example.tp3_petshop.viewmodel.FavoriteProductViewModel
 import com.example.tp3_petshop.viewmodel.ProductViewModel
 
 @Composable
-fun DetailView(productId: Int, navController: NavController, viewModel: ProductViewModel = viewModel(),
+fun DetailView(productId: Int, navController: NavController, viewModel: ProductViewModel = hiltViewModel(),
                favoriteViewModel: FavoriteProductViewModel = hiltViewModel()
 ) {
     val product by viewModel.selectedProduct.collectAsState()

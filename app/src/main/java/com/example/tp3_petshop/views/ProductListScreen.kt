@@ -10,15 +10,16 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.tp3_petshop.components.ProductCard
+import com.example.tp3_petshop.viewmodel.FavoriteProductViewModel
 import com.example.tp3_petshop.viewmodel.ProductUiState
 import com.example.tp3_petshop.viewmodel.ProductViewModel
 
 @Composable
-fun ProductListScreen(navController: NavController,
-                      viewModel: ProductViewModel = viewModel()) {
+fun ProductListScreen(navController: NavController, viewModel: ProductViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsState()
 
     when (uiState) {

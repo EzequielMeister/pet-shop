@@ -96,7 +96,7 @@ class MainActivity : ComponentActivity() {
                             }
                         )
                     }
-                    composable("notificationView") {
+                    composable("notificationSettingView") {
                         NotificationView (
                             fun(value: String) {
                                 navController.navigate(value)

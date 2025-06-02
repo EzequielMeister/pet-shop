@@ -61,7 +61,7 @@ fun SettingsView(
                 title = "Account", items = listOf(
                     MenuItem(Icons.Outlined.Person, "Account", "accountView"),
                     MenuItem(Icons.Outlined.Home, "Address", "settingsView"),
-                    MenuItem(Icons.Outlined.Notifications, "Notification", "notificationView"),
+                    MenuItem(Icons.Outlined.Notifications, "Notification", "notificationSettingView"),
                     MenuItem(Icons.Outlined.AccountBox, "Payment Method", "paymentMethodConfigView"),
                     MenuItem(Icons.Outlined.Info, "Privacy", "privacyView"),
                     MenuItem(Icons.Outlined.Lock, "Security", "securityView")
@@ -72,7 +72,7 @@ fun SettingsView(
             // Section: Help
             MenuComponent(
                 title = "Help", items = listOf(
-                    MenuItem(Icons.Outlined.Call, "Contact Us", "contactView"),
+                    MenuItem(Icons.Outlined.Call, "Contact Us", "settingsView"),
                     MenuItem(Icons.Outlined.Menu, "FAQ", "faqView"),
                 ), fun(value: String) { onOptionClick(value) })
 

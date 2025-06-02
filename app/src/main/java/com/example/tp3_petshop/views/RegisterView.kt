@@ -2,6 +2,7 @@ package com.example.tp3_petshop.views
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Checkbox
 import androidx.compose.runtime.Composable
 import androidx.compose.material3.Icon
@@ -15,6 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -56,37 +58,23 @@ fun RegisterView(navController: NavController? = null) {
                 value = fullName,
                 onValueChange = {fullName = it},
                 placeholder = "Full Name",
-                isError = false
+                keyboard = KeyboardOptions(keyboardType = KeyboardType.Text)
             )
             Spacer(modifier = Modifier.height(20.dp))
             FormAuth(
                 value = email,
                 onValueChange = {email = it},
                 placeholder = "Email",
-                isError = false
+                keyboard = KeyboardOptions(keyboardType = KeyboardType.Email)
             )
             Spacer(modifier = Modifier.height(20.dp))
             FormAuth(
                 value = password,
                 onValueChange = {password = it},
-                placeholder = "Email",
-                isError = false
+                placeholder = "Password",
+                keyboard = KeyboardOptions(keyboardType = KeyboardType.Password)
             )
             Spacer(modifier = Modifier.height(20.dp))
-
-            if (showError && (email.isBlank() || password.isBlank())) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.info),
-                        contentDescription = "Error",
-                        tint = Color.Red,
-                        modifier = Modifier.size(16.dp)
-                    )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text("Required Fields", color = Color.Red, fontSize = 12.sp)
-                }
-            }
-
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()

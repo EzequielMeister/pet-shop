@@ -2,6 +2,7 @@ package com.example.tp3_petshop.views
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -14,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -21,13 +23,19 @@ import androidx.navigation.NavController
 import com.example.tp3_petshop.R
 import com.example.tp3_petshop.components.ButtonAuthComp
 import com.example.tp3_petshop.components.FormAuth
+import com.example.tp3_petshop.models.Login
+import com.example.tp3_petshop.network.RetrofitInstance
 import com.example.tp3_petshop.ui.theme.TP3PETSHOPTheme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Composable
 fun LoginView(navController: NavController? = null) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var showError by remember { mutableStateOf(false) }
+    var loginError by remember { mutableStateOf(false) }
 
     val isButtonEnabled = email.isNotBlank() && password.isNotBlank()
 
@@ -52,30 +60,16 @@ fun LoginView(navController: NavController? = null) {
                 value = email,
                 onValueChange = {  email = it},
                 placeholder = "Email",
-                isError = showError
+                keyboard = KeyboardOptions(keyboardType = KeyboardType.Email)
             )
             Spacer(modifier = Modifier.height(20.dp))
             FormAuth(
                 value = password,
                 onValueChange = {password = it},
                 placeholder = "Password",
-                isError = false
+                keyboard = KeyboardOptions(keyboardType = KeyboardType.Password)
             )
             Spacer(modifier = Modifier.height(16.dp))
-
-            if (showError && (email.isBlank() || password.isBlank())) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.info),
-                        contentDescription = "Error",
-                        tint = Color.Red,
-                        modifier = Modifier.size(16.dp)
-                    )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text("Required Fields", color = Color.Red, fontSize = 12.sp)
-                }
-            }
-
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
@@ -129,10 +123,20 @@ fun LoginView(navController: NavController? = null) {
                 }
             }
 
+            if (loginError) {
+                Text(
+                    text = "Error: User or Password incorrect",
+                    color = Color.Red,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(8.dp).align(Alignment.CenterHorizontally)
+                )
+            }
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 250.dp),
+                    .padding(top = 230.dp),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -147,7 +151,24 @@ fun LoginView(navController: NavController? = null) {
 
         ButtonAuthComp(
             text = "Get Started",
-            onClick =  {},
+            onClick =  { if (isButtonEnabled) {
+                loginError = false
+                CoroutineScope(Dispatchers.Main).launch {
+                    try {
+                        val response = withContext(Dispatchers.IO) {
+                            RetrofitInstance.authService.login(
+                                Login(username = email, password = password)
+                            )
+                        }
+                        println("Token recibido: ${response.token}")
+                        navController?.navigate("homeScreen")
+                    } catch (e: Exception) {
+                        println("Error en login: ${e.message}")
+                        loginError = true
+                    }
+                }
+            }
+            },
             enabled = isButtonEnabled
         )
 

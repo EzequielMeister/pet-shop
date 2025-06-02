@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             TP3PETSHOPTheme {
                 val navController = rememberNavController()
-                NavHost(navController = navController, startDestination = "homeScreen") {
+                NavHost(navController = navController, startDestination = "initial") {
                     composable("initial") {
                         SplashView(
                             onGetStartedClick = {

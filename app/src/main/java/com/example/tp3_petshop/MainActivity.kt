@@ -15,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.tp3_petshop.views.AccountView
 import com.example.tp3_petshop.views.ChangeEmailView
 import com.example.tp3_petshop.views.ChangePasswordView
+import com.example.tp3_petshop.views.ChoosePaymentView
 import com.example.tp3_petshop.views.FaqView
 import com.example.tp3_petshop.views.HomeScreen
 import com.example.tp3_petshop.views.NotificationView
@@ -29,6 +30,7 @@ import com.example.tp3_petshop.views.RegisterView
 import com.example.tp3_petshop.views.DetailView
 import com.example.tp3_petshop.views.NotificationsListView
 import com.example.tp3_petshop.views.PaymentMethodConfigView
+import com.example.tp3_petshop.views.PaymentSuccessView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -143,6 +145,12 @@ class MainActivity : ComponentActivity() {
                                 navController.navigate(value)
                             }
                         )
+                    }
+                    composable("payment") {
+                        ChoosePaymentView(navController)
+                    }
+                    composable("paysuccess") {
+                        PaymentSuccessView(navController)
                     }
                 }
             }

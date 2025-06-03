@@ -25,12 +25,13 @@ import androidx.compose.ui.unit.dp
 fun LocationTopBar(
     currentLocation: String,
     onLocationClick: () -> Unit,
-    onNotificationClick: () -> Unit
+    onNotificationClick: () -> Unit,
+    onSearchClick: () -> Unit
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 12.dp),
+            .padding(horizontal = 16.dp, vertical = 36.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -48,7 +49,7 @@ fun LocationTopBar(
             }
         }
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            IconButton(onClick = { /* implement search click */ }) {
+            IconButton(onClick = onSearchClick) {
                 Icon(Icons.Default.Search, contentDescription = "Search")
             }
             IconButton(onClick = onNotificationClick) {

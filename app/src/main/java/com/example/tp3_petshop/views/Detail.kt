@@ -22,12 +22,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.tp3_petshop.components.TopBarSection
+import com.example.tp3_petshop.viewmodel.CartViewModel
 import com.example.tp3_petshop.viewmodel.ProductViewModel
 
 @Composable
 fun DetailView(productId: Int, navController: NavController, viewModel: ProductViewModel = viewModel()) {
     val product by viewModel.selectedProduct.collectAsState()
     var quantity by remember { mutableStateOf(1) }
+    val cartViewModel: CartViewModel = viewModel()
 
     LaunchedEffect(productId) {
         viewModel.fetchProductById(productId)
@@ -134,10 +136,21 @@ fun DetailView(productId: Int, navController: NavController, viewModel: ProductV
                             )
                         }
                     }
+                    var navigateToCart by remember { mutableStateOf(false) }
 
-                    // Botón Add to Cart
+                    if (navigateToCart) {
+                        LaunchedEffect(Unit) {
+                            kotlinx.coroutines.delay(500)
+                            navController.navigate("cart")
+                            navigateToCart = false
+                        }
+                    }
+
                     Button(
-                        onClick = { /* TODO */ },
+                        onClick = {
+                            cartViewModel.addProductToCart(product!!.id, quantity)
+                            navigateToCart = true
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(56.dp),
@@ -155,5 +168,3 @@ fun DetailView(productId: Int, navController: NavController, viewModel: ProductV
         }
     }
 }
-
-

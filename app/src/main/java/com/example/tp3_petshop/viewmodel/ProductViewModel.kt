@@ -4,19 +4,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tp3_petshop.models.Product
 import com.example.tp3_petshop.repository.ProductRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 sealed class ProductUiState {
     object Loading : ProductUiState()
     data class Success(val products: List<Product>) : ProductUiState()
     data class Error(val message: String) : ProductUiState()
 }
-
-class ProductViewModel : ViewModel() {
-
-    private val repository = ProductRepository()
+@HiltViewModel
+class ProductViewModel @Inject constructor(
+    private val repository: ProductRepository
+) : ViewModel()  {
 
     private val _uiState = MutableStateFlow<ProductUiState>(ProductUiState.Loading)
     val uiState: StateFlow<ProductUiState> = _uiState

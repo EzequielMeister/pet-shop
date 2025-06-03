@@ -37,6 +37,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tp3_petshop.R
 import com.example.tp3_petshop.components.BottomNavBar
@@ -45,9 +46,7 @@ import com.example.tp3_petshop.components.SwitchButtons
 import com.example.tp3_petshop.components.TabsButton
 import com.example.tp3_petshop.models.ButtonOption
 import com.example.tp3_petshop.ui.theme.TP3PETSHOPTheme
-import com.example.tp3_petshop.viewmodel.ProductUiState
-import com.example.tp3_petshop.viewmodel.ProductViewModel
-
+import com.example.tp3_petshop.viewmodel.CombinedViewModel
 
 val optionsProfile = listOf(
     ButtonOption("Saved", "saved"),
@@ -58,10 +57,10 @@ val optionsProfile = listOf(
 @Composable
 fun ProfileView(
     navigate: (value: String) -> Unit,
-    viewModel: ProductViewModel = viewModel()
+    combinedViewModel: CombinedViewModel = hiltViewModel()
 
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by combinedViewModel.favoriteProducts.collectAsState()
     var selectedTab by remember { mutableStateOf("saved") }
     var selectedSwitch by remember { mutableStateOf("profile") }
 
@@ -143,35 +142,23 @@ fun ProfileView(
                 handleChange = handleChangeTabs
             )
             Column {
-                when (uiState) {
-                    is ProductUiState.Loading -> {
-                        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                            CircularProgressIndicator()
-                        }
-                    }
-                    is ProductUiState.Error -> {
-                        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                            Text("Error al cargar los productos")
-                        }
-                    }
-                    is ProductUiState.Success -> {
-                        val products = (uiState as ProductUiState.Success).products
-
-                        Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-                            LazyVerticalGrid(
-                                columns = GridCells.Fixed(2),
-                                verticalArrangement = Arrangement.spacedBy(16.dp),
-                                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                                modifier = Modifier.fillMaxHeight()
-                            ) {
-                                items(products) { product ->
-                                    ProductCard(product = product) {
-                                        navigate("detail/${product.id}")
-                                    }
+                if (uiState.isNotEmpty()) {
+                    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+                        LazyVerticalGrid(
+                            columns = GridCells.Fixed(2),
+                            verticalArrangement = Arrangement.spacedBy(16.dp),
+                            horizontalArrangement = Arrangement.spacedBy(16.dp),
+                            modifier = Modifier.fillMaxHeight()
+                        ) {
+                            items(uiState) { product ->
+                                ProductCard(product = product) {
+                                    navigate("detail/${product.id}")
                                 }
                             }
                         }
                     }
+                } else {
+                    Text("No hay productos favoritos", modifier = Modifier.padding(16.dp))
                 }
 
             }

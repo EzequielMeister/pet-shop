@@ -37,6 +37,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tp3_petshop.R
 import com.example.tp3_petshop.components.ProductCard
@@ -61,7 +62,7 @@ val switchOptions = listOf(
 @Composable
 fun ProfileViewSellerMode(
     navigate: (value: String) -> Unit,
-    viewModel: ProductViewModel = viewModel()
+    viewModel: ProductViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     var selectedTab by remember { mutableStateOf("product") }

@@ -1,27 +1,20 @@
 package com.example.tp3_petshop.views
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
-import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.tp3_petshop.R
 import com.example.tp3_petshop.components.ButtonAuthComp
 import com.example.tp3_petshop.components.FormAuth
 import com.example.tp3_petshop.ui.theme.TP3PETSHOPTheme
@@ -29,7 +22,6 @@ import com.example.tp3_petshop.ui.theme.TP3PETSHOPTheme
 @Composable
 fun ForgotPasswordView(navController: NavController? = null) {
     var email by remember { mutableStateOf("") }
-    var showError by remember { mutableStateOf(false) }
 
     val isButtonEnabled = email.isNotBlank()
 
@@ -54,20 +46,9 @@ fun ForgotPasswordView(navController: NavController? = null) {
                 value = email,
                 onValueChange = {email = it},
                 placeholder = "Email",
-                isError = false
+                keyboard = KeyboardOptions(keyboardType = KeyboardType.Email)
             )
             Spacer(modifier = Modifier.height(20.dp))
-            if (showError && (email.isBlank())) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.info),
-                        contentDescription = "Error",
-                        tint = Color.Red,
-                        modifier = Modifier.size(16.dp)
-                    )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text("Required Fields", color = Color.Red, fontSize = 12.sp)
-                }
             }
 
             Row(
@@ -94,7 +75,6 @@ fun ForgotPasswordView(navController: NavController? = null) {
 
         Spacer(modifier = Modifier.height(8.dp))
     }
-}
 
 @Preview(showBackground = true)
 @Composable

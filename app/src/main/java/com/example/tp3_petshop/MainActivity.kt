@@ -29,8 +29,10 @@ import com.example.tp3_petshop.views.SplashView
 import com.example.tp3_petshop.views.RegisterView
 import com.example.tp3_petshop.views.DetailView
 import com.example.tp3_petshop.views.NotificationsListView
+import com.example.tp3_petshop.views.PaymentMethodConfigView
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +40,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             TP3PETSHOPTheme {
                 val navController = rememberNavController()
-                NavHost(navController = navController, startDestination = "homeScreen") {
+                NavHost(navController = navController, startDestination = "initial") {
                     composable("initial") {
                         SplashView(
                             onGetStartedClick = {
@@ -95,7 +97,7 @@ class MainActivity : ComponentActivity() {
                             }
                         )
                     }
-                    composable("notificationView") {
+                    composable("notificationSettingView") {
                         NotificationView (
                             fun(value: String) {
                                 navController.navigate(value)
@@ -135,6 +137,13 @@ class MainActivity : ComponentActivity() {
                     }
                     composable("changeEmailView") {
                         ChangeEmailView(
+                            fun(value: String) {
+                                navController.navigate(value)
+                            }
+                        )
+                    }
+                    composable("paymentMethodConfigView") {
+                        PaymentMethodConfigView(
                             fun(value: String) {
                                 navController.navigate(value)
                             }

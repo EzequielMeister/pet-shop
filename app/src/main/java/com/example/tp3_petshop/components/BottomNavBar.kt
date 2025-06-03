@@ -7,8 +7,11 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.ShoppingCart
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -46,6 +49,62 @@ fun BottomNavBar(
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = Color(0xFF7140FD),
                 unselectedIconColor = Color(0xFFAAAAAA), // o tu inactiveTextColor
+                indicatorColor = Color.Transparent
+            )
+        )
+
+
+        NavigationBarItem(
+            selected = currentRoute == "view",
+            onClick = { onNavigate("homeScreen") },
+            icon = {
+                Icon(
+                    if (currentRoute == "view") Icons.Outlined.Email else Icons.Outlined.Email,
+                    contentDescription = "Inicio",
+                    modifier = Modifier.size(35.dp)
+                )
+            },
+            label = {
+                if (currentRoute == "view") {
+                    Box(
+                        modifier = Modifier
+                            .size(8.dp)
+                            .background(Color(0xFF7140FD), shape = CircleShape)
+                    )
+                }
+            },
+            colors = NavigationBarItemDefaults.colors(
+                selectedIconColor = Color(0xFF7140FD),
+                unselectedIconColor = Color(0xFFAAAAAA), // o tu inactiveTextColor
+                indicatorColor = Color.Transparent
+            )
+        )
+
+
+
+
+        NavigationBarItem(
+            selected = currentRoute == "cart",
+            onClick = { onNavigate("cart") },
+            icon = {
+                Icon(
+                    if (currentRoute == "cart") Icons.Default.ShoppingCart else Icons.Outlined.ShoppingCart,
+                    contentDescription = "Inicio",
+                    modifier = Modifier.size(35.dp)
+                )
+            },
+            label = {
+                if (currentRoute == "cart") {
+                    Box(
+                        modifier = Modifier
+                            .size(8.dp)
+                            .background(Color(0xFF7140FD), shape = CircleShape)
+                    )
+                }
+            },
+            colors = NavigationBarItemDefaults.colors(
+                selectedIconColor = Color(0xFF7140FD),
+                unselectedIconColor = Color(0xFFAAAAAA),
                 indicatorColor = Color.Transparent
             )
         )

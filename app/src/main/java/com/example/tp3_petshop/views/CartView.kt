@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.tp3_petshop.components.CartItemList
@@ -21,10 +22,18 @@ import com.example.tp3_petshop.viewmodel.CartViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CartView(navController: NavController, viewModel: CartViewModel = viewModel()) {
-    val cart by viewModel.cart.collectAsState()
+fun CartView(navController: NavController,
+             cartViewModel: CartViewModel = hiltViewModel()) {
+    val cart by cartViewModel.cart.collectAsState()
     val isCartEmpty = cart?.products.isNullOrEmpty()
-    var showDialog by remember { mutableStateOf(false) }
+
+    fun onCheckout() {
+        navController.navigate("payment")
+    }
+
+    LaunchedEffect(Unit) {
+        cartViewModel.getCart()
+    }
 
     Scaffold(
         topBar = {
@@ -81,7 +90,7 @@ fun CartView(navController: NavController, viewModel: CartViewModel = viewModel(
                     Spacer(modifier = Modifier.height(16.dp))
 
                     Button(
-                        onClick = { showDialog = true },
+                        onClick = { onCheckout() },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(56.dp),
@@ -120,29 +129,12 @@ fun CartView(navController: NavController, viewModel: CartViewModel = viewModel(
             else -> {
                 CartItemList(
                     products = cart?.products ?: emptyList(),
-                    onDeleteClick = { product -> viewModel.removeProduct(product.id) },
+                    onDeleteClick = { },
                     modifier = Modifier.padding(innerPadding)
                 )
             }
         }
     }
 
-    if (showDialog) {
-        AlertDialog(
-            onDismissRequest = { showDialog = false },
-            title = { Text("¡Gracias por tu compra!") },
-            text = { Text("Tu pedido fue procesado correctamente.") },
-            confirmButton = {
-                TextButton(onClick = {
-                    showDialog = false
-                    navController.popBackStack()
-                }) {
-                    Text("Aceptar")
-                }
-            },
-            containerColor = Color.White,
-            shape = RoundedCornerShape(16.dp)
-        )
-    }
 }
 

@@ -24,7 +24,8 @@ data class CartProductDetail(
     val price: Double,
     val quantity: Int,
     val total: Double,
-    val thumbnail: String
+    val thumbnail: String,
+    val productId: Int
 )
 
 data class UpdateCartRequest(

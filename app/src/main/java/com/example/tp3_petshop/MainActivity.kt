@@ -13,6 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.tp3_petshop.views.AccountView
+import com.example.tp3_petshop.views.CartView
 import com.example.tp3_petshop.views.BestSellerView
 import com.example.tp3_petshop.views.ChangeEmailView
 import com.example.tp3_petshop.views.ChangePasswordView
@@ -127,6 +128,10 @@ class MainActivity : ComponentActivity() {
                             DetailView(productId = productId, navController = navController)
                         }
                     }
+                    composable("cart") {
+                        CartView(navController = navController)
+                    }
+
                     composable("changePasswordView") {
                         ChangePasswordView(
                             fun(value: String) {

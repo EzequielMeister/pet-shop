@@ -26,10 +26,35 @@ object RetrofitInstance {
             .create(ProductService::class.java)
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+    val cartApi: CartService by lazy {
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(CartService::class.java)
+    }
+
+
+=======
+=======
+>>>>>>> 915d50640f973fbbdf2c2820c8f20d54a547c1ef
+=======
+>>>>>>> 915d50640f973fbbdf2c2820c8f20d54a547c1ef
     private val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
     val authService: AuthService = retrofit.create(AuthService::class.java)
+<<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> 915d50640f973fbbdf2c2820c8f20d54a547c1ef
+=======
+>>>>>>> 915d50640f973fbbdf2c2820c8f20d54a547c1ef
+=======
+>>>>>>> 915d50640f973fbbdf2c2820c8f20d54a547c1ef
 }

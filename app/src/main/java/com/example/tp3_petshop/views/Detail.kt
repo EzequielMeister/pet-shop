@@ -18,28 +18,19 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.tp3_petshop.components.TopBarSection
-import com.example.tp3_petshop.viewmodel.CartViewModel
-import com.example.tp3_petshop.models.FavoriteProductDto
-import com.example.tp3_petshop.viewmodel.FavoriteProductViewModel
 import com.example.tp3_petshop.viewmodel.ProductViewModel
 
 @Composable
-fun DetailView(productId: Int, navController: NavController, viewModel: ProductViewModel = hiltViewModel(),
-               favoriteViewModel: FavoriteProductViewModel = hiltViewModel()
-) {
+fun DetailView(productId: Int, navController: NavController, viewModel: ProductViewModel = viewModel()) {
     val product by viewModel.selectedProduct.collectAsState()
     var quantity by remember { mutableStateOf(1) }
-    val cartViewModel: CartViewModel = viewModel()
-    val favorite by favoriteViewModel.favoriteById.collectAsState()
 
     LaunchedEffect(productId) {
         viewModel.fetchProductById(productId)
-        favoriteViewModel.getByProductId(productId)
     }
 
     if (product != null) {
@@ -58,15 +49,8 @@ fun DetailView(productId: Int, navController: NavController, viewModel: ProductV
                     TopBarSection(
                         title = "Product Detail",
                         showFavorite = true,
-                        isFavorite = favorite != null,
                         onBackClick = { navController.popBackStack() },
-                        onFavoriteClick = {
-                            if (favorite != null) {
-                                favoriteViewModel.deleteFavorite(favorite!!)
-                            } else {
-                                favoriteViewModel.saveFavorite(FavoriteProductDto(productId = productId))
-                            }
-                        }
+                        onFavoriteClick = { /* TODO: marcar favorito */ }
                     )
 
                     Column(
@@ -150,21 +134,10 @@ fun DetailView(productId: Int, navController: NavController, viewModel: ProductV
                             )
                         }
                     }
-                    var navigateToCart by remember { mutableStateOf(false) }
 
-                    if (navigateToCart) {
-                        LaunchedEffect(Unit) {
-                            kotlinx.coroutines.delay(500)
-                            navController.navigate("cart")
-                            navigateToCart = false
-                        }
-                    }
-
+                    // Botón Add to Cart
                     Button(
-                        onClick = {
-                            cartViewModel.addProductToCart(product!!.id, quantity)
-                            navigateToCart = true
-                        },
+                        onClick = { /* TODO */ },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(56.dp),
@@ -182,3 +155,5 @@ fun DetailView(productId: Int, navController: NavController, viewModel: ProductV
         }
     }
 }
+
+

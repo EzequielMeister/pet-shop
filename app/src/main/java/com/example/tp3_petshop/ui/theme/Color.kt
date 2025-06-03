@@ -19,3 +19,7 @@ val inactiveButtonColor = Color.Transparent
 val inactiveTextColor = Color(0xFFB3B1B0)
 
 val activeTextColor = Color(0xFFFFFFFF)
+
+val activeBackgroundButtonColor = Color(0xFF7140FD)
+val inactiveBackgroundButtonColor = Color(0xFFF8F8F8)
+val inactiveColor = Color(0xFFB3B1B0)

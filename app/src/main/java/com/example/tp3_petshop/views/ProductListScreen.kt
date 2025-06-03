@@ -1,5 +1,6 @@
 package com.example.tp3_petshop.views
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -9,6 +10,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -37,12 +39,17 @@ fun ProductListScreen(navController: NavController, viewModel: ProductViewModel 
             val products = (uiState as ProductUiState.Success).products
 
             Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-                Text(
-                    text = "Best Seller",
-                    style = MaterialTheme.typography.headlineSmall,
-                    modifier = Modifier.padding(bottom = 16.dp)
-                )
-
+                Box(
+                    modifier = Modifier
+                        .clickable { navController.navigate("bestSellerView") }
+                        .padding(bottom = 16.dp)
+                ) {
+                    Text(
+                        text = "Best Seller",
+                        fontWeight = FontWeight.Bold,
+                        style = MaterialTheme.typography.headlineSmall
+                    )
+                }
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(2),
                     verticalArrangement = Arrangement.spacedBy(16.dp),

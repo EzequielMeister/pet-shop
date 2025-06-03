@@ -19,13 +19,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tp3_petshop.models.MenuItem
 
 @Composable
-fun ItemRow(item: MenuItem, onClick: () -> Unit) {
+fun ItemRow(item: MenuItem, onClick: () -> Unit, icon: ImageVector) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -61,7 +62,7 @@ fun ItemRow(item: MenuItem, onClick: () -> Unit) {
 
 
 @Composable
-fun MenuComponent(title: String, items: List<MenuItem>, onClick: (String) -> Unit) {
+fun MenuComponent(title: String, items: List<MenuItem>, onClick: (String) -> Unit, icon: ImageVector = Icons.AutoMirrored.Outlined.KeyboardArrowRight) {
     Text(
         text = title,
         style = MaterialTheme.typography.labelMedium,
@@ -70,7 +71,10 @@ fun MenuComponent(title: String, items: List<MenuItem>, onClick: (String) -> Uni
         modifier = Modifier.padding(vertical = 8.dp)
     )
     items.forEach { item ->
-        ItemRow(item = item) { onClick(item.value) }
+        ItemRow(
+            item = item, icon = icon,
+            onClick = { onClick(item.value) }
+        )
     }
 }
 

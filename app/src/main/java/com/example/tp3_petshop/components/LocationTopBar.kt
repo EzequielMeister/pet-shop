@@ -2,6 +2,7 @@ package com.example.tp3_petshop.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,17 +26,25 @@ import androidx.compose.ui.unit.dp
 fun LocationTopBar(
     currentLocation: String,
     onLocationClick: () -> Unit,
-    onNotificationClick: () -> Unit
+    onNotificationClick: () -> Unit,
+    onSearchClick: () -> Unit
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 12.dp),
+            .padding(horizontal = 16.dp, vertical = 36.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Column(modifier = Modifier.clickable { onLocationClick() }) {
-            Text("Location", style = MaterialTheme.typography.labelSmall, color = Color.Gray)
+        Column{
+            Box(
+                modifier = Modifier
+                    .clickable { onLocationClick() }
+                    .padding(bottom = 16.dp)
+            ) {
+                Text("Location", style = MaterialTheme.typography.labelSmall, color = Color.Gray)
+            }
+
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     text = currentLocation,
@@ -48,7 +57,7 @@ fun LocationTopBar(
             }
         }
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            IconButton(onClick = { /* implement search click */ }) {
+            IconButton(onClick = onSearchClick) {
                 Icon(Icons.Default.Search, contentDescription = "Search")
             }
             IconButton(onClick = onNotificationClick) {

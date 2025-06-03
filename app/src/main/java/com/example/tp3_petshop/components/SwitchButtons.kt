@@ -14,20 +14,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.tp3_petshop.models.ButtonOption
-
-// pasar al theme
-val backgroundColorButtonsContainer = Color(0xFFF8F8F8)
-// color del boton activo
-val activeButtonBackgroundColor = Color(0xFF7140FD)
-// transparente
-val inactiveButtonColor = Color.Transparent
-//  color de texto inactivo
-val inactiveTextColor = Color(0xFFB3B1B0)
-// .align(Alignment.CenterHorizontally)
-val activeTextColor = Color(0xFFFFFFFF)
+import com.example.tp3_petshop.ui.theme.activeButtonBackgroundColor
+import com.example.tp3_petshop.ui.theme.activeTextColor
+import com.example.tp3_petshop.ui.theme.backgroundColorButtonsContainer
+import com.example.tp3_petshop.ui.theme.inactiveButtonColor
+import com.example.tp3_petshop.ui.theme.inactiveTextColor
 
 @Composable
 fun SwitchButtons(

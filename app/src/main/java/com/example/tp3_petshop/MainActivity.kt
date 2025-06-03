@@ -13,6 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.tp3_petshop.views.AccountView
+import com.example.tp3_petshop.views.BestSellerView
 import com.example.tp3_petshop.views.ChangeEmailView
 import com.example.tp3_petshop.views.ChangePasswordView
 import com.example.tp3_petshop.views.ChoosePaymentView
@@ -31,6 +32,7 @@ import com.example.tp3_petshop.views.DetailView
 import com.example.tp3_petshop.views.NotificationsListView
 import com.example.tp3_petshop.views.PaymentMethodConfigView
 import com.example.tp3_petshop.views.PaymentSuccessView
+import com.example.tp3_petshop.views.SearchView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -41,7 +43,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             TP3PETSHOPTheme {
                 val navController = rememberNavController()
-                NavHost(navController = navController, startDestination = "initial") {
+                NavHost(navController = navController, startDestination = "homeScreen") {
                     composable("initial") {
                         SplashView(
                             onGetStartedClick = {
@@ -151,6 +153,15 @@ class MainActivity : ComponentActivity() {
                     }
                     composable("paysuccess") {
                         PaymentSuccessView(navController)
+                    composable("searchView") {
+                        SearchView(
+                            navController
+                        )
+                    }
+                    composable("bestSellerView") {
+                        BestSellerView(
+                            navController
+                        )
                     }
                 }
             }

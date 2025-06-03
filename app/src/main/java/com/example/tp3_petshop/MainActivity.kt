@@ -153,6 +153,7 @@ class MainActivity : ComponentActivity() {
                     }
                     composable("paysuccess") {
                         PaymentSuccessView(navController)
+                    }
                     composable("searchView") {
                         SearchView(
                             navController

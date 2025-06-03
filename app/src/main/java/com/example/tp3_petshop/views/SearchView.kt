@@ -94,7 +94,6 @@ fun SearchView(navController: NavController) {
                 modifier = Modifier
                     .fillMaxSize()
             ) {
-                Spacer(Modifier.height(24.dp))
                 OutlinedTextField(
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = activeButtonBackgroundColor,

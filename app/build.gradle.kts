@@ -1,3 +1,5 @@
+import org.gradle.kotlin.dsl.implementation
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -5,6 +7,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services") //para que funque el firebase
 }
 
 android {
@@ -44,6 +47,8 @@ android {
 
 dependencies {
 
+    implementation ("com.google.firebase:firebase-bom:32.0.0") // Firebase BoM para manejar versiones de Firebase
+    implementation ("com.google.firebase:firebase-auth-ktx") // Firebase Auth KTX para Kotlin
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

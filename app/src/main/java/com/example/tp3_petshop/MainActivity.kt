@@ -65,7 +65,7 @@ class MainActivity : ComponentActivity() {
                             },
                         )
                     }
-                    composable("profileView") {
+                    composable("profileView")   {
                         ProfileView(
                             fun(route: String) {
                                 navController.navigate(route)

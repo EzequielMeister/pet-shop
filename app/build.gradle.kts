@@ -47,8 +47,12 @@ android {
 
 dependencies {
 
-    implementation ("com.google.firebase:firebase-bom:32.0.0") // Firebase BoM para manejar versiones de Firebase
-    implementation ("com.google.firebase:firebase-auth-ktx") // Firebase Auth KTX para Kotlin
+    // Import the Firebase BoM
+    implementation(platform("com.google.firebase:firebase-bom:33.16.0"))
+    //tDO: Add the dependencies for Firebase products you want to use
+    // When using the BoM, don't specify versions in Firebase dependencies
+    implementation("com.google.firebase:firebase-analytics")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

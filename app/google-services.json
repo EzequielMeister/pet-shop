@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "407748927382",
+    "project_id": "my-aw-1748b",
+    "storage_bucket": "my-aw-1748b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:407748927382:android:aa0be3191d16637a9bc7b7",
+        "android_client_info": {
+          "package_name": "com.example.tp3_petshop"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9sEQ7cbBc04_sP2gRVQ01tRqpFgI5BlU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

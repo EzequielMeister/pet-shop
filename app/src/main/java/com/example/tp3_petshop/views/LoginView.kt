@@ -17,6 +17,10 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import kotlinx.coroutines.launch
 
+
+// UserTest: "admin"
+// PasswordTest: "adminadmin"
+
 @Composable
 fun LoginView(navController: NavController?) {
     var email by remember { mutableStateOf("") }

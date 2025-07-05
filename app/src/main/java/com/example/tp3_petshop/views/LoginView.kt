@@ -68,7 +68,7 @@ fun LoginView(navController: NavController?) {
                             loading = false
                             if (task.isSuccessful) {
                                 Toast.makeText(context, "Login exitoso", Toast.LENGTH_SHORT).show()
-                                navController?.navigate("HomeScreen") {
+                                navController?.navigate("homeScreen") {
                                     popUpTo("LoginView") { inclusive = true }
                                 }
                             } else {

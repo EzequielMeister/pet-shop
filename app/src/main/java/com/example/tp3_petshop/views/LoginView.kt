@@ -18,8 +18,10 @@ import com.google.firebase.auth.AuthResult
 import kotlinx.coroutines.launch
 
 
-// UserTest: "admin"
-// PasswordTest: "adminadmin"
+// UserTest: "rob@gmail.com"
+// PasswordTest: "robrob"
+
+// Consola Firebase: https://console.firebase.google.com/u/0/project/my-aw-1748b/authentication/users
 
 @Composable
 fun LoginView(navController: NavController?) {

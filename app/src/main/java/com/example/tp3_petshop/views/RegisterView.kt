@@ -139,7 +139,7 @@ fun RegisterView(navController: NavController? = null) {
                             loading = false
                             if (task.isSuccessful) {
                                 Toast.makeText(context, "Registro exitoso", Toast.LENGTH_SHORT).show()
-                                navController?.navigate("login") {
+                                navController?.navigate("homeScreen") {
                                     popUpTo("register") { inclusive = true }
                                 }
                             } else {

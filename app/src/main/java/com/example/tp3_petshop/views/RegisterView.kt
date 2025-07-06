@@ -26,6 +26,12 @@ import com.example.tp3_petshop.R
 import com.example.tp3_petshop.components.ButtonAuthComp
 import com.example.tp3_petshop.components.FormAuth
 import com.example.tp3_petshop.ui.theme.TP3PETSHOPTheme
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
+import com.google.firebase.auth.FirebaseAuth
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
+import kotlinx.coroutines.launch
 
 @Composable
 fun RegisterView(navController: NavController? = null) {
@@ -34,6 +40,10 @@ fun RegisterView(navController: NavController? = null) {
     var password by remember { mutableStateOf("") }
     var agreedToTerms by remember { mutableStateOf(false) }
     var showError by remember { mutableStateOf(false) }
+    var loading by remember { mutableStateOf(false) }
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val auth = FirebaseAuth.getInstance()
 
     val isButtonEnabled = fullName.isNotBlank() && email.isNotBlank() && password.isNotBlank() && agreedToTerms
 
@@ -81,7 +91,7 @@ fun RegisterView(navController: NavController? = null) {
             ) {
                 Checkbox(
                     checked = agreedToTerms,
-                    onCheckedChange = { agreedToTerms = it },
+                    onCheckedChange = { agreedToTerms = it }
                 )
                 val annotatedString = buildAnnotatedString {
                     withStyle(style = SpanStyle(color = Color.Gray)) {
@@ -99,8 +109,7 @@ fun RegisterView(navController: NavController? = null) {
                 }
                 Text(
                     text = annotatedString,
-                    modifier = Modifier.clickable {
-                    }
+                    modifier = Modifier.clickable { }
                 )
             }
 
@@ -121,8 +130,28 @@ fun RegisterView(navController: NavController? = null) {
         }
 
         ButtonAuthComp(
-            text = "Get Started",
-            onClick =  {},
+            text = if (loading) "Registrando..." else "Get Started",
+            onClick = {
+                loading = true
+                scope.launch {
+                    auth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener { task: Task<AuthResult> ->
+                            loading = false
+                            if (task.isSuccessful) {
+                                Toast.makeText(context, "Registro exitoso", Toast.LENGTH_SHORT).show()
+                                navController?.navigate("login") {
+                                    popUpTo("register") { inclusive = true }
+                                }
+                            } else {
+                                Toast.makeText(
+                                    context,
+                                    "Error: ${task.exception?.message ?: "No se pudo registrar"}",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                        }
+                }
+            },
             enabled = isButtonEnabled
         )
 
@@ -137,4 +166,3 @@ fun RegisterViewPreview() {
         RegisterView()
     }
 }
-

@@ -47,12 +47,16 @@ import com.example.tp3_petshop.components.TabsButton
 import com.example.tp3_petshop.models.ButtonOption
 import com.example.tp3_petshop.ui.theme.TP3PETSHOPTheme
 import com.example.tp3_petshop.viewmodel.CombinedViewModel
+import com.google.firebase.auth.FirebaseAuth
+
 
 val optionsProfile = listOf(
     ButtonOption("Saved", "saved"),
     ButtonOption("Edit Profile", "editprofile")
 )
 
+val currentUser = FirebaseAuth.getInstance().currentUser
+val userEmail = currentUser?.email ?: "Sin email"
 
 @Composable
 fun ProfileView(
@@ -128,7 +132,7 @@ fun ProfileView(
                     modifier = Modifier
                         .padding(8.dp)
                         .fillMaxWidth(),
-                    text = "Abduldul",
+                    text = userEmail,
                     textAlign = TextAlign.Center,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold

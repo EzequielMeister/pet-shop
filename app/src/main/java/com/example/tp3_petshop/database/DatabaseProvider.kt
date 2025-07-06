@@ -3,6 +3,7 @@ package com.example.tp3_petshop.database
 import android.content.Context
 import androidx.room.Room
 import com.example.tp3_petshop.dao.FavoriteProductDao
+import com.example.tp3_petshop.dao.UserDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,5 +28,10 @@ object DatabaseModule {
     @Provides
     fun provideFavoriteProductDao(db: AppDatabase): FavoriteProductDao {
         return db.favoriteProductDao()
+    }
+
+    @Provides
+    fun provideUserDao(db: AppDatabase): UserDao {
+        return db.userDao()
     }
 }

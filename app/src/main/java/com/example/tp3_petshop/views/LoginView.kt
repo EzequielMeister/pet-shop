@@ -63,6 +63,12 @@ fun LoginView(navController: NavController?) {
             onClick = {
                 loading = true
                 scope.launch {
+                    val cleanEmail = email.trim()
+                    if (!android.util.Patterns.EMAIL_ADDRESS.matcher(cleanEmail).matches()) {
+                        Toast.makeText(context, "El email no tiene un formato válido", Toast.LENGTH_SHORT).show()
+                        loading = false
+                        return@launch
+                    }
                     auth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener { task: Task<AuthResult> ->
                             loading = false
@@ -90,7 +96,7 @@ fun LoginView(navController: NavController?) {
         Spacer(modifier = Modifier.height(16.dp))
 
         TextButton(onClick = {
-            navController?.navigate("RegisterView")
+            navController?.navigate("register")
         }) {
             Text("¿No tenés cuenta? Registrate")
         }

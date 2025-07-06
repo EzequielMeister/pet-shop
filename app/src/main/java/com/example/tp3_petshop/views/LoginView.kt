@@ -18,10 +18,6 @@ import com.google.firebase.auth.AuthResult
 import kotlinx.coroutines.launch
 
 
-// UserTest: "rob@gmail.com"
-// PasswordTest: "robrob"
-
-// Consola Firebase: https://console.firebase.google.com/u/0/project/my-aw-1748b/authentication/users
 
 @Composable
 fun LoginView(navController: NavController?) {
@@ -62,6 +58,7 @@ fun LoginView(navController: NavController?) {
         Spacer(modifier = Modifier.height(24.dp))
 
         Button(
+            // Aca estan los cambios realizados con firebase authentication respecto de la version anterior
             onClick = {
                 loading = true
                 scope.launch {

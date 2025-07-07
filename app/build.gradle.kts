@@ -87,5 +87,7 @@ dependencies {
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
 
+    //firebase firestore
+    implementation("com.google.firebase:firebase-firestore-ktx")
 
 }

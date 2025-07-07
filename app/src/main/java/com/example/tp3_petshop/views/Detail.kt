@@ -26,23 +26,35 @@ import com.example.tp3_petshop.models.FavoriteProductDto
 import com.example.tp3_petshop.viewmodel.CartViewModel
 import com.example.tp3_petshop.viewmodel.FavoriteProductViewModel
 import com.example.tp3_petshop.viewmodel.ProductViewModel
+import com.example.tp3_petshop.viewmodel.SessionViewModel
 
 @Composable
-fun DetailView(productId: Int, navController: NavController, viewModel: ProductViewModel = hiltViewModel(),
-               favoriteViewModel: FavoriteProductViewModel = hiltViewModel(),
-               cartViewModel: CartViewModel = hiltViewModel(),
-               ) {
+fun DetailView(
+    productId: Int,
+    navController: NavController,
+    viewModel: ProductViewModel = hiltViewModel(),
+    favoriteViewModel: FavoriteProductViewModel = hiltViewModel(),
+    cartViewModel: CartViewModel = hiltViewModel(),
+    sessionViewModel: SessionViewModel
+) {
+    val userId by sessionViewModel.userId.collectAsState()
     val product by viewModel.selectedProduct.collectAsState()
     var quantity by remember { mutableStateOf(1) }
     val favorite by favoriteViewModel.favoriteById.collectAsState()
     fun addToCart() {
+        if (product != null) {
+            cartViewModel.addProductToCart(productId = product!!.id, quantity = quantity)
+        }
         navController.navigate("cart")
     }
 
     LaunchedEffect(productId) {
         viewModel.fetchProductById(productId)
         favoriteViewModel.getByProductId(productId)
-        cartViewModel.getCart()
+        if (userId != null) {
+            cartViewModel.setUserId(userId)
+            cartViewModel.getCart()
+        }
     }
 
     if (product != null) {
@@ -156,7 +168,15 @@ fun DetailView(productId: Int, navController: NavController, viewModel: ProductV
 
                     // Botón Add to Cart
                     Button(
-                        onClick = {addToCart()},
+                        onClick = {
+                            if (userId != null && product != null) {
+                                cartViewModel.setUserId(userId)
+                                cartViewModel.addProductToCart(productId = product!!.id, quantity = quantity)
+                                navController.navigate("cart")
+                            } else {
+                                println("userId o product es null, espera a que cargue el usuario.")
+                            }
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(56.dp),

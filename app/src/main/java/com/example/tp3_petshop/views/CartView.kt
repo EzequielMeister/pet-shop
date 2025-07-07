@@ -19,11 +19,17 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.tp3_petshop.components.CartItemList
 import com.example.tp3_petshop.viewmodel.CartViewModel
+import com.example.tp3_petshop.viewmodel.SessionViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CartView(navController: NavController,
-             cartViewModel: CartViewModel = hiltViewModel()) {
+fun CartView(
+    navController: NavController,
+    sessionViewModel: SessionViewModel
+
+) {
+    val userId by sessionViewModel.userId.collectAsState()
+    val cartViewModel: CartViewModel = hiltViewModel()
     val cart by cartViewModel.cart.collectAsState()
     val isCartEmpty = cart?.products.isNullOrEmpty()
 
@@ -31,8 +37,11 @@ fun CartView(navController: NavController,
         navController.navigate("payment")
     }
 
-    LaunchedEffect(Unit) {
-        cartViewModel.getCart()
+    LaunchedEffect(userId) {
+        if (userId != null) {
+            cartViewModel.setUserId(userId)
+            cartViewModel.getCart()
+        }
     }
 
     Scaffold(
@@ -129,7 +138,7 @@ fun CartView(navController: NavController,
             else -> {
                 CartItemList(
                     products = cart?.products ?: emptyList(),
-                    onDeleteClick = { },
+                    onDeleteClick = { productId -> cartViewModel.removeProduct(productId) },
                     modifier = Modifier.padding(innerPadding)
                 )
             }

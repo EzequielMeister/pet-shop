@@ -32,6 +32,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import kotlinx.coroutines.launch
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.tasks.await
 
 @Composable
 fun RegisterView(navController: NavController? = null) {
@@ -46,6 +49,13 @@ fun RegisterView(navController: NavController? = null) {
     val auth = FirebaseAuth.getInstance()
 
     val isButtonEnabled = fullName.isNotBlank() && email.isNotBlank() && password.isNotBlank() && agreedToTerms
+
+    suspend fun getNextUserId(): Int {
+        val db = Firebase.firestore
+        val snapshot = db.collection("user_mappings").get().await()
+        val maxId = snapshot.documents.mapNotNull { it.getLong("userId") }.maxOrNull() ?: 0L
+        return (maxId + 1).toInt()
+    }
 
     Column(
         modifier = Modifier
@@ -138,9 +148,24 @@ fun RegisterView(navController: NavController? = null) {
                         .addOnCompleteListener { task: Task<AuthResult> ->
                             loading = false
                             if (task.isSuccessful) {
-                                Toast.makeText(context, "Registro exitoso", Toast.LENGTH_SHORT).show()
-                                navController?.navigate("homeScreen") {
-                                    popUpTo("register") { inclusive = true }
+                                val uid = task.result.user?.uid
+                                if (uid != null) {
+                                    scope.launch {
+                                        val userId = getNextUserId()
+                                        val mapping = hashMapOf("userId" to userId)
+                                        Firebase.firestore.collection("user_mappings")
+                                            .document(uid)
+                                            .set(mapping)
+                                            .addOnSuccessListener {
+                                                Toast.makeText(context, "Registro exitoso", Toast.LENGTH_SHORT).show()
+                                                navController?.navigate("homeScreen") {
+                                                    popUpTo("register") { inclusive = true }
+                                                }
+                                            }
+                                            .addOnFailureListener {
+                                                Toast.makeText(context, "Error guardando mapeo", Toast.LENGTH_LONG).show()
+                                            }
+                                    }
                                 }
                             } else {
                                 Toast.makeText(

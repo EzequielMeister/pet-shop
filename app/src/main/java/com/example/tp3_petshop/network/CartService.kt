@@ -15,8 +15,8 @@ interface CartService {
     @POST("carts/add")
     suspend fun addToCart(@Body request: CartRequest): Response<CartResponse>
 
-    @GET("carts/1")
-    suspend fun getUserCart(): Response<CartResponse>
+    @GET("carts/{userId}")
+    suspend fun getUserCart(@Path("userId") userId: Int): Response<CartResponse>
 
     @PUT("carts/{cartId}")
     suspend fun updateCart(

@@ -9,12 +9,12 @@ import com.example.tp3_petshop.models.CartProductDetail
 @Composable
 fun CartItemList(
     products: List<CartProductDetail>,
-    onDeleteClick: (CartProductDetail) -> Unit,
+    onDeleteClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(modifier = modifier) {
         items(products) { product ->
-            CartItem(product = product, onDeleteClick = { onDeleteClick(product) })
+            CartItem(product = product, onDeleteClick = onDeleteClick)
         }
     }
 }

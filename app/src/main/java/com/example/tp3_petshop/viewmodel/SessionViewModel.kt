@@ -20,6 +20,8 @@ class SessionViewModel : ViewModel() {
         // mapeamos el UID de Firebase al userId num y lo usamos por toda la app
         val user = FirebaseAuth.getInstance().currentUser
         val uid = user?.uid
+        println("UID de Firebase: $uid")
+        println(user)
         if (uid != null) {
             viewModelScope.launch {
                 try {

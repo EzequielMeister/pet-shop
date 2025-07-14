@@ -171,10 +171,14 @@ fun DetailView(
                         onClick = {
                             if (userId != null && product != null) {
                                 cartViewModel.setUserId(userId)
-                                cartViewModel.addProductToCart(productId = product!!.id, quantity = quantity)
-                                navController.navigate("cart")
-                            } else {
-                                println("userId o product es null, espera a que cargue el usuario.")
+                                cartViewModel.addProductToCart(
+                                    productId = product!!.id,
+                                    quantity = quantity
+                                ) {
+                                    navController.navigate("cart") {
+                                        popUpTo("cart") { inclusive = true }
+                                    }
+                                }
                             }
                         },
                         modifier = Modifier

@@ -1,21 +1,25 @@
 package com.example.tp3_petshop.viewmodel
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.tp3_petshop.models.CartProductDetail
 import com.example.tp3_petshop.models.CartProductRequest
 import com.example.tp3_petshop.models.CartRequest
 import com.example.tp3_petshop.models.CartResponse
 import com.example.tp3_petshop.repository.CartRepository
+import com.example.tp3_petshop.repository.ProductRepository
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 @HiltViewModel
 class CartViewModel @Inject constructor(
     private val repository: CartRepository,
+    private val productRepository: ProductRepository
 ) : ViewModel() {
     private val _cart = MutableStateFlow<CartResponse?>(null)
     val cart: StateFlow<CartResponse?> = _cart
@@ -29,94 +33,91 @@ class CartViewModel @Inject constructor(
     fun getCart() {
         val uid = userId ?: return
         viewModelScope.launch {
-            val response = repository.getUserCart(uid)
-            if (response.isSuccessful) {
-                _cart.value = response.body()
-                currentCartId = response.body()?.id
+            val db = com.google.firebase.firestore.FirebaseFirestore.getInstance()
+            val doc = db.collection("carts").document(uid.toString()).get().await()
+            val cartFromFirestore = doc.toObject(CartResponse::class.java)
+            _cart.value = cartFromFirestore ?: CartResponse(id = uid)
+            currentCartId = cartFromFirestore?.id ?: uid
+            println("Carrito traido de Firestore")
+        }
+    }
+
+    fun addProductToCart(
+        productId: Int,
+        quantity: Int,
+        onComplete: () -> Unit = {}
+    ) {
+        val uid = userId ?: return
+        viewModelScope.launch {
+            val product = productRepository.getProductById(productId)
+
+            val db = FirebaseFirestore.getInstance()
+            val doc = db.collection("carts").document(uid.toString()).get().await()
+            val existing = doc.toObject(CartResponse::class.java)?.products?.toMutableList()
+                ?: mutableListOf()
+
+            val idx = existing.indexOfFirst { it.id == productId }
+            if (idx >= 0) {
+                val old = existing[idx]
+                val newQty = old.quantity + quantity
+                existing[idx] = old.copy(
+                    quantity = newQty,
+                    total = product.price * newQty
+                )
+            } else {
+                existing.add(
+                    CartProductDetail(
+                        id = product.id,
+                        title = product.title,
+                        price = product.price,
+                        quantity = quantity,
+                        total = product.price * quantity,
+                        thumbnail = product.thumbnail,
+                        productId = product.id
+                    )
+                )
+            }
+
+            val total = existing.sumOf { it.price * it.quantity }
+            val newCart = CartResponse(
+                id = doc.toObject(CartResponse::class.java)?.id ?: 0,
+                products = existing,
+                total = total,
+                totalProducts = existing.size,
+                totalQuantity = existing.sumOf { it.quantity }
+            )
+
+            repository.saveCartToFirestore(uid.toString(), newCart) { success ->
+                if (success) {
+                    _cart.value = newCart
+                    onComplete()
+                }
             }
         }
     }
 
-    fun addProductToCart(productId: Int, quantity: Int) {
-        val uid = userId ?: return
-        viewModelScope.launch {
-            val request = CartRequest(
-                userId = uid,
-                products = listOf(CartProductRequest(id = productId, quantity = quantity))
-            )
-            val response = repository.addToCart(request)
-            if (response.isSuccessful) {
-                val cart = response.body()
-                _cart.value = cart
-                currentCartId = cart?.id
-                if (cart != null) {
-                    println("Llamando a saveCartToFirestore con userId=$uid y cart=$cart")
-                    repository.saveCartToFirestore(uid.toString(), cart) { ok ->
-                        println("Resultado guardado Firestore: $ok") }
-                }
-                getCart()
-            }
-        }
-    }
 
     fun removeProduct(productId: Int) {
         val uid = userId ?: return
         val current = _cart.value ?: return
         val updatedProducts = current.products?.filterNot { it.id == productId } ?: return
-        val cartId = current.id
         viewModelScope.launch {
-            val productRequests = updatedProducts.map {
-                CartProductRequest(id = it.id, quantity = it.quantity)
-            }
-            val response = repository.updateCart(cartId, productRequests)
-            if (response.isSuccessful) {
-                val cart = response.body()
-                _cart.value = cart
-                if (cart != null) {
-                    repository.saveCartToFirestore(uid.toString(), cart) {}
-                }
-                getCart()
+            val total = updatedProducts.sumOf { it.price * it.quantity }
+            val totalQuantity = updatedProducts.sumOf { it.quantity }
+            val totalProducts = updatedProducts.size
+
+            val newCart = CartResponse(
+                id = current.id,
+                products = updatedProducts,
+                total = total,
+                totalProducts = totalProducts,
+                totalQuantity = totalQuantity
+            )
+
+            repository.saveCartToFirestore(uid.toString(), newCart) { ok ->
+                println("Producto eliminado y carrito actualizado: $ok")
+                _cart.value = newCart
             }
         }
     }
-
-//    fun addProductToCart(productId: Int, quantity: Int) {
-//        viewModelScope.launch {
-//            val request = CartRequest(
-//                userId = userId,
-//                products = listOf(CartProductRequest(id = productId, quantity = quantity))
-//            )
-//            val response = repository.addToCart(request)
-//            if (response.isSuccessful) {
-//                val cart = response.body()
-//                _cart.value = cart
-//                currentCartId = cart?.id
-//                // Guarda en Firestore
-//                if (cart != null) {
-//                    repository.saveCartToFirestore(userId.toString(), cart) {}
-//                }
-//                getCart()
-//            }
-//        }
-//    }
-//
-//    fun removeProduct(productId: Int) {
-//        val current = _cart.value ?: return
-//        val updatedProducts = current.products?.filterNot { it.id == productId } ?: return
-//        val cartId = current.id
-//        viewModelScope.launch {
-//            val productRequests = updatedProducts.map {
-//                CartProductRequest(id = it.id, quantity = it.quantity)
-//            }
-//            val response = repository.updateCart(cartId, productRequests)
-//            if (response.isSuccessful) {
-//                val cart = response.body()
-//                _cart.value = cart
-//                if (cart != null) {
-//                    repository.saveCartToFirestore(userId.toString(), cart) {}
-//                }
-//                getCart()
-//            }
-//        }
-//    }
 }

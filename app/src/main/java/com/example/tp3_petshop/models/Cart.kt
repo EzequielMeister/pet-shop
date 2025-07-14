@@ -11,21 +11,21 @@ data class CartProductRequest(
 )
 
 data class CartResponse(
-    val id: Int,
-    val products: List<CartProductDetail>?,
-    val total: Double,
-    val totalProducts: Int,
-    val totalQuantity: Int
+    val id: Int = 0,
+    val products: List<CartProductDetail>? = emptyList(),
+    val total: Double = 0.0,
+    val totalProducts: Int = 0,
+    val totalQuantity: Int = 0
 )
 
 data class CartProductDetail(
-    val id: Int,
-    val title: String,
-    val price: Double,
-    val quantity: Int,
-    val total: Double,
-    val thumbnail: String,
-    val productId: Int
+    val id: Int = 0,
+    val title: String = "",
+    val price: Double = 0.0,
+    val quantity: Int = 0,
+    val total: Double = 0.0,
+    val thumbnail: String = "",
+    val productId: Int = 0
 )
 
 data class UpdateCartRequest(

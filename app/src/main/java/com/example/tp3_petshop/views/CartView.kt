@@ -38,7 +38,8 @@ fun CartView(
     }
 
     LaunchedEffect(userId) {
-        if (userId != null) {
+        println("CartView: userId = $userId")
+        if (userId != null && userId!! > 0) {
             cartViewModel.setUserId(userId)
             cartViewModel.getCart()
         }
@@ -131,7 +132,32 @@ fun CartView(
                         .padding(innerPadding),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text("Tu carrito está vacío.")
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = "Your cart is empty!",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFF735BF2)
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Button(
+                            onClick = { navController.navigate("homeScreen") },
+                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF735BF2)),
+                            shape = RoundedCornerShape(24.dp),
+                            modifier = Modifier
+                                .height(48.dp)
+                                .width(200.dp)
+                        ) {
+                            Text(
+                                text = "Continue Shopping",
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Medium,
+                                color = Color.White
+                            )
+                        }
+                    }
                 }
             }
 

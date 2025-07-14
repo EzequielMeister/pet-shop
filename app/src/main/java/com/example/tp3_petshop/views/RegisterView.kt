@@ -144,37 +144,39 @@ fun RegisterView(navController: NavController? = null) {
             onClick = {
                 loading = true
                 scope.launch {
-                    auth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener { task: Task<AuthResult> ->
-                            loading = false
-                            if (task.isSuccessful) {
-                                val uid = task.result.user?.uid
-                                if (uid != null) {
-                                    scope.launch {
-                                        val userId = getNextUserId()
-                                        val mapping = hashMapOf("userId" to userId)
-                                        Firebase.firestore.collection("user_mappings")
-                                            .document(uid)
-                                            .set(mapping)
-                                            .addOnSuccessListener {
-                                                Toast.makeText(context, "Registro exitoso", Toast.LENGTH_SHORT).show()
-                                                navController?.navigate("homeScreen") {
-                                                    popUpTo("register") { inclusive = true }
-                                                }
-                                            }
-                                            .addOnFailureListener {
-                                                Toast.makeText(context, "Error guardando mapeo", Toast.LENGTH_LONG).show()
-                                            }
-                                    }
-                                }
-                            } else {
-                                Toast.makeText(
-                                    context,
-                                    "Error: ${task.exception?.message ?: "No se pudo registrar"}",
-                                    Toast.LENGTH_LONG
-                                ).show()
+                    try {
+                        val authResult = auth.createUserWithEmailAndPassword(email, password).await()
+                        val uid = authResult.user?.uid
+                        if (uid != null) {
+                            val userId = getNextUserId()
+                            val mapping = hashMapOf("userId" to userId)
+                            // Guarda el mapping
+                            Firebase.firestore.collection("user_mappings")
+                                .document(uid)
+                                .set(mapping)
+                                .await()
+                            // Inicializa el carrito vacío
+                            Firebase.firestore.collection("carts")
+                                .document(userId.toString())
+                                .set(
+                                    hashMapOf(
+                                        "id" to userId,
+                                        "products" to emptyList<Map<String, Any>>(),
+                                        "total" to 0.0,
+                                        "totalProducts" to 0,
+                                        "totalQuantity" to 0
+                                    )
+                                )
+                                .await()
+                            Toast.makeText(context, "Registro exitoso", Toast.LENGTH_SHORT).show()
+                            navController?.navigate("homeScreen") {
+                                popUpTo("register") { inclusive = true }
                             }
                         }
+                    } catch (e: Exception) {
+                        loading = false
+                        Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_LONG).show()
+                    }
                 }
             },
             enabled = isButtonEnabled

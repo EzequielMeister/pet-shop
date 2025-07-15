@@ -40,7 +40,7 @@ fun CartItem(product: CartProductDetail, onDeleteClick: (Int) -> Unit) {
             Spacer(modifier = Modifier.width(16.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(product.title, style = MaterialTheme.typography.titleMedium)
-                Text("Cantidad: ${product.quantity}", color = Color.Gray)
+                Text("Quantity: ${product.quantity}", color = Color.Gray)
                 Text(
                     "$${product.price}",
                     fontWeight = FontWeight.Bold,
@@ -48,7 +48,7 @@ fun CartItem(product: CartProductDetail, onDeleteClick: (Int) -> Unit) {
                 )
             }
             IconButton(onClick = { onDeleteClick(product.id) }) {
-            Icon(Icons.Default.Delete, contentDescription = "Eliminar", tint = Color.Red)
+            Icon(Icons.Default.Delete, contentDescription = "Delete", tint = Color.Red)
             }
         }
     }

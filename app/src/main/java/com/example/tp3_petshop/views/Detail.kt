@@ -39,7 +39,7 @@ fun DetailView(
 ) {
     val userId by sessionViewModel.userId.collectAsState()
     val product by viewModel.selectedProduct.collectAsState()
-    var quantity by remember { mutableStateOf(1) }
+    var quantity by remember { mutableStateOf(1) } // local state para la cantidad de items a agregar
     val favorite by favoriteViewModel.favoriteById.collectAsState()
     fun addToCart() {
         if (product != null) {

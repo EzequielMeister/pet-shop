@@ -14,10 +14,10 @@ import retrofit2.Response
 class CartRepository @Inject constructor(){
 
 
-    fun saveCartToFirestore(userId: String, cart: CartResponse, onResult: (Boolean) -> Unit) {
+    fun saveCartToFirestore(userId: String, cart: CartResponse, onResult: (Boolean) -> Unit) { // Persiste el cart en Firestore
         val db = FirebaseFirestore.getInstance()
         db.collection("carts").document(userId)
-            .set(cart)
+            .set(cart) // Sobrescribe o crea el doc
             .addOnSuccessListener {
                 println("Firestore: carrito guardado OK")
                 onResult(true)
@@ -39,7 +39,7 @@ class CartRepository @Inject constructor(){
 
     suspend fun updateCart(cartId: Int, products: List<CartProductRequest>): Response<CartResponse> {
         val request = UpdateCartRequest(
-            merge = true,
+            merge = true, // para no borrar otros campos
             products = products
         )
         return RetrofitInstance.cartApi.updateCart(cartId, request)

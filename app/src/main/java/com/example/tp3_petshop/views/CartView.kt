@@ -34,9 +34,12 @@ fun CartView(
     val isCartEmpty = cart?.products.isNullOrEmpty()
 
     fun onCheckout() {
-        navController.navigate("payment")
+        cartViewModel.persistCart {
+            navController.navigate("payment")
+        }
     }
 
+    // Cuando carga el Composable, si el ID es valido, seteamos y pedimos el cart
     LaunchedEffect(userId) {
         println("CartView: userId = $userId")
         if (userId != null && userId!! > 0) {
@@ -114,6 +117,7 @@ fun CartView(
         }
     ) { innerPadding ->
         when {
+            // Loader
             cart == null -> {
                 Box(
                     modifier = Modifier
@@ -161,6 +165,7 @@ fun CartView(
                 }
             }
 
+            // Si no esta vacio mostramos la lista y le mandamos el onDelete click al ViewModel
             else -> {
                 CartItemList(
                     products = cart?.products ?: emptyList(),

@@ -145,6 +145,7 @@ fun RegisterView(navController: NavController? = null) {
                 loading = true
                 scope.launch {
                     try {
+                        // creamos usuario en Firebase
                         val authResult = auth.createUserWithEmailAndPassword(email, password).await()
                         val uid = authResult.user?.uid
                         if (uid != null) {
@@ -155,13 +156,13 @@ fun RegisterView(navController: NavController? = null) {
                                 .document(uid)
                                 .set(mapping)
                                 .await()
-                            // Inicializa el carrito vacío
+                            // Inicializa el carrito default
                             Firebase.firestore.collection("carts")
                                 .document(userId.toString())
                                 .set(
                                     hashMapOf(
                                         "id" to userId,
-                                        "products" to emptyList<Map<String, Any>>(),
+                                        "products" to emptyList<Map<String, Any>>(), // lista vacía sin productos
                                         "total" to 0.0,
                                         "totalProducts" to 0,
                                         "totalQuantity" to 0
@@ -169,6 +170,8 @@ fun RegisterView(navController: NavController? = null) {
                                 )
                                 .await()
                             Toast.makeText(context, "Registro exitoso", Toast.LENGTH_SHORT).show()
+
+                            // Navegamos al home y eliminamos la ruta /register
                             navController?.navigate("homeScreen") {
                                 popUpTo("register") { inclusive = true }
                             }

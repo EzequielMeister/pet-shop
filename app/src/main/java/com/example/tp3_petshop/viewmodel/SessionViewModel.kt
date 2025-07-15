@@ -19,7 +19,7 @@ class SessionViewModel : ViewModel() {
     init {
         // mapeamos el UID de Firebase al userId num y lo usamos por toda la app
         val user = FirebaseAuth.getInstance().currentUser
-        val uid = user?.uid
+        val uid = user?.uid // Guardamos el uid del usuario autenticado Auth
         println("UID de Firebase: $uid")
         println(user)
         if (uid != null) {
@@ -31,6 +31,8 @@ class SessionViewModel : ViewModel() {
                         .get()
                         .await()
                     val backendId = doc.getLong("userId")?.toInt()
+
+                    // Extraemos userID y actualizamos el flow
                     _userId.value = backendId
                 } catch (e: Exception) {
                     println("Error obteniendo userId de Firestore: ${e.message}")

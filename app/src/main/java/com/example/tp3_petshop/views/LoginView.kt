@@ -26,7 +26,7 @@ fun LoginView(navController: NavController?) {
     var loading by remember { mutableStateOf(false) }
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    val auth = FirebaseAuth.getInstance()
+    val auth = FirebaseAuth.getInstance()   // Inicialización de FirebaseAuth.
 
     Column(
         modifier = Modifier
@@ -58,7 +58,7 @@ fun LoginView(navController: NavController?) {
         Spacer(modifier = Modifier.height(24.dp))
 
         Button(
-            // Aca estan los cambios realizados con firebase authentication respecto de la version anterior
+
             onClick = {
                 loading = true
                 scope.launch {
@@ -68,6 +68,7 @@ fun LoginView(navController: NavController?) {
                         loading = false
                         return@launch
                     }
+                    // Aca estan los cambios realizados con firebase authentication respecto de la version anterior.
                     auth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener { task: Task<AuthResult> ->
                             loading = false

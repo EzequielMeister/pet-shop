@@ -6,6 +6,7 @@ import com.example.tp3_petshop.models.CartProductDetail
 import com.example.tp3_petshop.models.CartProductRequest
 import com.example.tp3_petshop.models.CartRequest
 import com.example.tp3_petshop.models.CartResponse
+import com.example.tp3_petshop.models.Order
 import com.example.tp3_petshop.repository.CartRepository
 import com.example.tp3_petshop.repository.ProductRepository
 import com.google.firebase.firestore.FirebaseFirestore
@@ -19,7 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class CartViewModel @Inject constructor(
     private val repository: CartRepository,
-    private val productRepository: ProductRepository
+    private val productRepository: ProductRepository,
+    private val firestore: FirebaseFirestore
 ) : ViewModel() {
     // acá guardamos el cart y lo ponemo como StateFlow para el front
     private val _cart = MutableStateFlow<CartResponse?>(null)
@@ -138,4 +140,26 @@ class CartViewModel @Inject constructor(
             }
         }
     }
+
+    fun createOrder(order: Order, onComplete: () -> Unit) {
+        firestore.collection("orders")
+            .add(order)
+            .addOnSuccessListener { onComplete() }
+            .addOnFailureListener { /* manejar error si hace falta */ }
+    }
+
+    // vaciar cart al hacer checkout
+    fun clearCart(onComplete: () -> Unit = {}) {
+        val uid = userId ?: return
+        viewModelScope.launch {
+            val emptyCart = CartResponse(id = uid, products = emptyList(), total = 0.0, totalProducts = 0, totalQuantity = 0)
+            repository.saveCartToFirestore(uid.toString(), emptyCart) { success ->
+                if (success) {
+                    _cart.value = emptyCart
+                    onComplete()
+                }
+            }
+        }
+    }
+
 }

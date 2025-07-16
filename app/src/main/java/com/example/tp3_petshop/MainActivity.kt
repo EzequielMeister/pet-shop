@@ -161,8 +161,20 @@ class MainActivity : ComponentActivity() {
                     composable("payment") {
                         ChoosePaymentView(navController)
                     }
-                    composable("paysuccess") {
-                        PaymentSuccessView(navController)
+
+                    composable(
+                        "paysuccess/{paymentMethod}",
+                        arguments = listOf(navArgument("paymentMethod") { type = NavType.StringType })
+                    ) { backStackEntry ->
+                        val method = backStackEntry.arguments?.getString("paymentMethod") ?: ""
+                        PaymentSuccessView(
+                            navController = navController,
+                            paymentMethod = method,
+                            sessionViewModel = sessionViewModel
+                        )
+//                    composable("paysuccess") {
+//                        PaymentSuccessView(navController)
+//                    }
                     }
                     composable("searchView") {
                         SearchView(

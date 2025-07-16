@@ -18,6 +18,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,15 +31,27 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.tp3_petshop.components.ButtonAuthComp
 import com.example.tp3_petshop.components.PaymentOption
 import com.example.tp3_petshop.ui.theme.TP3PETSHOPTheme
+import com.example.tp3_petshop.viewmodel.CartViewModel
+import com.example.tp3_petshop.viewmodel.SessionViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChoosePaymentView(navController: NavController) {
+fun ChoosePaymentView(navController: NavController, sessionViewModel: SessionViewModel = hiltViewModel(), cartViewModel: CartViewModel = hiltViewModel()) {
+    val userId by sessionViewModel.userId.collectAsState()
     var selectedMethod by remember { mutableStateOf<String?>(null) }
+    val cart by cartViewModel.cart.collectAsState()
+
+    LaunchedEffect(userId) {
+        userId?.let {
+            cartViewModel.setUserId(it)
+            cartViewModel.getCart()
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -77,7 +91,12 @@ fun ChoosePaymentView(navController: NavController) {
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Column {
-
+                cart?.let {
+                    Text(
+                        "${it.totalProducts} productos • Total: $${"%.2f".format(it.total)}",
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
                 Spacer(modifier = Modifier.height(24.dp))
                 Text(
                     text = "Choose your Payment Method",
@@ -106,8 +125,12 @@ fun ChoosePaymentView(navController: NavController) {
 
             ButtonAuthComp(
                 text = "Checkout",
-                onClick = {navController?.navigate("paysuccess")},
-                enabled = selectedMethod != null
+                enabled = selectedMethod != null,
+                onClick = {
+                    cartViewModel.persistCart {
+                        navController.navigate("paysuccess/$selectedMethod")
+                    }
+                }
             )
         }
 

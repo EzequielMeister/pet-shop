@@ -72,6 +72,13 @@ fun PaymentSuccessView(navController: NavController? = null, paymentMethod: Stri
                 fontWeight = FontWeight.Bold
             )
 
+            Text(
+                text = "Payment method: $paymentMethod",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.padding(vertical = 8.dp)
+            )
+
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(text = "your order is being prepared by the shop, the courier will send it to your address", fontSize = 18.sp, fontWeight = FontWeight.SemiBold)

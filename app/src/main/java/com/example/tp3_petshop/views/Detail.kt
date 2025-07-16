@@ -160,7 +160,7 @@ fun DetailView(
                             }
 
                             Text(
-                                text = "$${"%.2f".format(product!!.price)}",
+                                text = "$${"%.2f".format(product!!.price * quantity)}",
                                 style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold)
                             )
                         }

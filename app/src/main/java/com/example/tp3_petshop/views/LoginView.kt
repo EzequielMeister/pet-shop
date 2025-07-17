@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.tp3_petshop.utils.Constants
@@ -26,7 +27,7 @@ fun LoginView(navController: NavController?) {
     var loading by remember { mutableStateOf(false) }
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    val auth = FirebaseAuth.getInstance()   // Inicialización de FirebaseAuth.
+    val auth = FirebaseAuth.getInstance()  // Inicialización de FirebaseAuth.
 
     Column(
         modifier = Modifier
@@ -107,3 +108,4 @@ fun LoginView(navController: NavController?) {
         }
     }
 }
+

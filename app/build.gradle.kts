@@ -7,7 +7,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
-    id("com.google.gms.google-services") //para que funque el firebase
+    id("com.google.gms.google-services") //plugin para Firebase
 }
 
 android {
@@ -47,10 +47,8 @@ android {
 
 dependencies {
 
-    // Import the Firebase BoM
+   // dependencias de firebase para la autenticacion
     implementation(platform("com.google.firebase:firebase-bom:33.16.0"))
-    //tDO: Add the dependencies for Firebase products you want to use
-    // When using the BoM, don't specify versions in Firebase dependencies
     implementation("com.google.firebase:firebase-analytics")
 
     implementation(libs.androidx.core.ktx)

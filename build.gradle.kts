@@ -1,11 +1,10 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath("com.google.gms:google-services:4.3.15") // Add the latest version of google-services plugin
+        classpath("com.google.gms:google-services:4.3.15") //plugin de los servicios de google
     }
 }
 

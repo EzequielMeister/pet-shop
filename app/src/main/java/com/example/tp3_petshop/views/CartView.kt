@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -15,12 +14,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.tp3_petshop.components.CartItemList
+import com.example.tp3_petshop.utils.Constants
 import com.example.tp3_petshop.viewmodel.CartViewModel
 import com.example.tp3_petshop.viewmodel.SessionViewModel
 
+// Esta view es la UI del carrito de compras
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CartView(
@@ -35,7 +35,7 @@ fun CartView(
 
     fun onCheckout() {
         cartViewModel.persistCart {
-            navController.navigate("payment")
+            navController.navigate(Constants.Routes.PAYMENT_SCREEN)
         }
     }
 
@@ -76,8 +76,10 @@ fun CartView(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Text("${cart?.products?.sumOf { it.quantity } ?: 0} Items", color = Color.Gray)
-                        Text("$${"%.2f".format(cart?.products?.sumOf { it.price * it.quantity } ?: 0.0)}", color = Color.Gray)
+                        Text("${cart?.products?.sumOf { it.quantity } ?: 0} Items",
+                            color = Color.Gray)
+                        Text("$${"%.2f".format(cart?.products?.sumOf { it.price * it.quantity } ?: 0.0)}",
+                            color = Color.Gray)
                     }
 
                     Spacer(modifier = Modifier.height(4.dp))
@@ -97,7 +99,12 @@ fun CartView(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text("Totals", fontWeight = FontWeight.Bold, fontSize = 18.sp)
-                        Text("$${"%.2f".format(cart?.products?.sumOf { it.price * it.quantity }?.plus(1.99) ?: 0.0)}", fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                        Text(
+                            "$${
+                                "%.2f".format(cart?.products?.sumOf { it.price * it.quantity }
+                                    ?.plus(1.99) ?: 0.0)
+                            }", fontWeight = FontWeight.Bold, fontSize = 18.sp
+                        )
                     }
 
                     Spacer(modifier = Modifier.height(16.dp))
@@ -147,7 +154,7 @@ fun CartView(
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                         Button(
-                            onClick = { navController.navigate("homeScreen") },
+                            onClick = { navController.navigate(Constants.Routes.HOME_SCREEN) },
                             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF735BF2)),
                             shape = RoundedCornerShape(24.dp),
                             modifier = Modifier

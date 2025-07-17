@@ -12,11 +12,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.tp3_petshop.utils.Constants
 import com.google.firebase.auth.FirebaseAuth
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import kotlinx.coroutines.launch
-
 
 
 @Composable
@@ -64,17 +64,22 @@ fun LoginView(navController: NavController?) {
                 scope.launch {
                     val cleanEmail = email.trim()
                     if (!android.util.Patterns.EMAIL_ADDRESS.matcher(cleanEmail).matches()) {
-                        Toast.makeText(context, "El email no tiene un formato válido", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            context,
+                            "El email no tiene un formato válido",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         loading = false
                         return@launch
                     }
-                    // Aca estan los cambios realizados con firebase authentication respecto de la version anterior.
+
+                    // Aca estan los cambios realizados con firebase authentication respecto de la version anterior hardcodeada.
                     auth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener { task: Task<AuthResult> ->
                             loading = false
                             if (task.isSuccessful) {
                                 Toast.makeText(context, "Login exitoso", Toast.LENGTH_SHORT).show()
-                                navController?.navigate("homeScreen") {
+                                navController?.navigate(Constants.Routes.HOME_SCREEN) {
                                     popUpTo("LoginView") { inclusive = true }
                                 }
                             } else {
@@ -96,7 +101,7 @@ fun LoginView(navController: NavController?) {
         Spacer(modifier = Modifier.height(16.dp))
 
         TextButton(onClick = {
-            navController?.navigate("register")
+            navController?.navigate(Constants.Routes.REGISTER_SCREEN)
         }) {
             Text("¿No tenés cuenta? Registrate")
         }

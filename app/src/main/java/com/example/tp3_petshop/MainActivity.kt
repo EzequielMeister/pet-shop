@@ -15,6 +15,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.tp3_petshop.Greeting
 import com.example.tp3_petshop.viewmodel.SessionViewModel
 import com.example.tp3_petshop.views.AccountView
 import com.example.tp3_petshop.views.CartView
@@ -39,6 +40,7 @@ import com.example.tp3_petshop.views.PaymentMethodConfigView
 import com.example.tp3_petshop.views.PaymentSuccessView
 import com.example.tp3_petshop.views.SearchView
 import dagger.hilt.android.AndroidEntryPoint
+import com.example.tp3_petshop.utils.Constants
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -57,9 +59,11 @@ class MainActivity : ComponentActivity() {
                             }
                         )
                     }
-                    composable("login") {
+
+                    composable(Constants.Routes.LOGIN_SCREEN) {
                         LoginView(navController)
                     }
+
                     composable("register") {
                         RegisterView(navController)
                     }
@@ -133,7 +137,7 @@ class MainActivity : ComponentActivity() {
                             DetailView(productId = productId, navController = navController, sessionViewModel = sessionViewModel)
                         }
                     }
-                    composable("cart") {
+                    composable(Constants.Routes.CART_SCREEN) {
                         CartView(navController = navController, sessionViewModel = sessionViewModel)
                     }
 
@@ -172,9 +176,7 @@ class MainActivity : ComponentActivity() {
                             paymentMethod = method,
                             sessionViewModel = sessionViewModel
                         )
-//                    composable("paysuccess") {
-//                        PaymentSuccessView(navController)
-//                    }
+
                     }
                     composable("searchView") {
                         SearchView(

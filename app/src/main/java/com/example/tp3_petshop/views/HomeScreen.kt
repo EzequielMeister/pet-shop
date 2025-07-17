@@ -46,6 +46,8 @@ import com.example.tp3_petshop.components.BottomNavBar
 import com.example.tp3_petshop.components.LocationTopBar
 import com.example.tp3_petshop.components.TabsButton
 import com.example.tp3_petshop.models.ButtonOption
+import com.example.tp3_petshop.utils.Constants
+import com.example.tp3_petshop.views.optionsHomeScreen
 
 val optionsHomeScreen = listOf(
     ButtonOption("Food", "food"),
@@ -70,10 +72,10 @@ fun HomeScreen(navController: NavController) {
                 currentLocation = currentLocation.value,
                 onLocationClick = { showBottomSheet = true },
                 onNotificationClick = {
-                    navController.navigate("notificationView")
+                    navController.navigate(Constants.Routes.NOTIFICATION_VIEW)
                 },
                 onSearchClick = {
-                    navController.navigate("searchView")
+                    navController.navigate(Constants.Routes.SEARCH_VIEW)
                 }
 
             )

@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
+import kotlin.jvm.java
 
 @HiltViewModel
 class CartViewModel @Inject constructor(
@@ -38,7 +39,8 @@ class CartViewModel @Inject constructor(
         val uid = userId ?: return
         viewModelScope.launch {
             val db = com.google.firebase.firestore.FirebaseFirestore.getInstance()
-            val doc = db.collection("carts").document(uid.toString()).get().await() // pedimos el doc con la colección "carts"
+            val doc = db.collection("carts").document(uid.toString()).get()
+                .await() // pedimos el doc con la colección "carts"
             val cartFromFirestore = doc.toObject(CartResponse::class.java)
 
             // si no habia nada, creamos un CartResponse default con el ID del user
@@ -107,7 +109,8 @@ class CartViewModel @Inject constructor(
             }
         }
     }
-    // para persistir el cart al hacer checkout
+
+    // para persistir el carrito de compras al hacer checkout
     fun persistCart(onComplete: () -> Unit = {}) {
         val uid = userId ?: return
         val current = _cart.value ?: return
@@ -152,7 +155,13 @@ class CartViewModel @Inject constructor(
     fun clearCart(onComplete: () -> Unit = {}) {
         val uid = userId ?: return
         viewModelScope.launch {
-            val emptyCart = CartResponse(id = uid, products = emptyList(), total = 0.0, totalProducts = 0, totalQuantity = 0)
+            val emptyCart = CartResponse(
+                id = uid,
+                products = emptyList(),
+                total = 0.0,
+                totalProducts = 0,
+                totalQuantity = 0
+            )
             repository.saveCartToFirestore(uid.toString(), emptyCart) { success ->
                 if (success) {
                     _cart.value = emptyCart

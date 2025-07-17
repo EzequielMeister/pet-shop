@@ -13,8 +13,8 @@ import retrofit2.Response
 @Singleton
 class CartRepository @Inject constructor(){
 
-
-    fun saveCartToFirestore(userId: String, cart: CartResponse, onResult: (Boolean) -> Unit) { // Persiste el cart en Firestore
+    // Funcion encargada de guardar el carrito en Firestore
+    fun saveCartToFirestore(userId: String, cart: CartResponse, onResult: (Boolean) -> Unit) {
         val db = FirebaseFirestore.getInstance()
         db.collection("carts").document(userId)
             .set(cart) // Sobrescribe o crea el doc

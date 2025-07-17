@@ -7,6 +7,8 @@ object Constants {
         const val REGISTER_SCREEN = "register"
         const val NOTIFICATION_VIEW = "notificationView"
         const val SEARCH_VIEW = "searchView"
+        const val LOGIN_SCREEN = "login"
+        const val CART_SCREEN = "cart"
 
     }
 }
